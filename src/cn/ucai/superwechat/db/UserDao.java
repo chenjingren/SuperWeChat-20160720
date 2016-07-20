@@ -35,6 +35,24 @@ public class UserDao {
 	public static final String ROBOT_COLUMN_NAME_ID = "username";
 	public static final String ROBOT_COLUMN_NAME_NICK = "nick";
 	public static final String ROBOT_COLUMN_NAME_AVATAR = "avatar";
+
+
+	//USER_TABLE_NAME来源于I接口中的User接口的TABLE_NAME字段
+	public static final String USER_TABLE_NAME = "t_superwechat_user";
+	public static final String USER_NAME_ID = "muserName";
+	public static final String USER_COLUMN_NAME_NICK = "muserNick";
+	public static final String USER_COLUMN_NAME_AVATAR = "mavatarId";
+	public static final String USER_COLUMN_AVATAR_PATH = "mavatarPath";
+	public static final String USER_COLUMN_AVAATAR_TYPE = "mavatarType";
+	public static final String USER_COLUMN_AVATAR_LAST_UPDATE_TIME = "mavatarLastUpdateTime";
+
+	//来源于UserAvatar实体类，为我们自己的数据表提供字段
+	//private String muserName;
+	//private String muserNick;
+	//private Integer mavatarId;
+	//private String mavatarPath;
+	//private Integer mavatarType;
+	//private String mavatarLastUpdateTime;
 	
 	
 	public UserDao(Context context) {
