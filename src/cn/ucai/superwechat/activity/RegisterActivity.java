@@ -17,6 +17,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,16 +29,23 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 
+import java.io.File;
+
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.listener.OnSetAvatarListener;
+import cn.ucai.superwechat.utils.OkHttpUtils2;
 
 /**
  * 注册页
  * 
  */
 public class RegisterActivity extends BaseActivity {
+
+	public static final String TAG = RegisterActivity.class.getName();
+
 	private EditText userNameEditText;
 	private EditText userNickEditText;
 	private EditText passwordEditText;
@@ -79,7 +87,7 @@ public class RegisterActivity extends BaseActivity {
 		findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				register();
 			}
 		});
 
@@ -122,7 +130,15 @@ public class RegisterActivity extends BaseActivity {
 			Toast.makeText(this, getResources().getString(R.string.User_name_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
 			return;
-		} else if (TextUtils.isEmpty(pwd)) {
+		} else if (TextUtils.isEmpty(username)) {
+			Toast.makeText(this, getResources().getString(R.string.illegal_user_name), Toast.LENGTH_SHORT).show();
+			userNameEditText.requestFocus();
+			return;
+		}else if (TextUtils.isEmpty(usernick)) {
+			Toast.makeText(this, getResources().getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
+			userNickEditText.requestFocus();
+			return;
+		}else if (TextUtils.isEmpty(pwd)) {
 			Toast.makeText(this, getResources().getString(R.string.Password_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			passwordEditText.requestFocus();
 			return;
@@ -145,7 +161,35 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	private void registerAppServer() {
+		File file = new File(OnSetAvatarListener.getAvatarPath(RegisterActivity.this,I.AVATAR_TYPE_USER_PATH)
+								,avatarName+I.AVATAR_SUFFIX_JPG);
+		OkHttpUtils2<Result> utils2 = new OkHttpUtils2<Result>();
+		utils2.setRequestUrl(I.SERVER_ROOT)
+				.addParam(I.User.USER_NAME,username)
+				.addParam(I.User.NICK,usernick)
+				.addParam(I.User.PASSWORD,pwd)
+				.addFile(file)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						Log.e(TAG,"result=="+result);
+						if (result.isRetMsg()){
+							Log.e(TAG,"result=="+result);
+							registerEMServer();
+							Toast.makeText(RegisterActivity.this, "result success" + result.getRetCode(), Toast.LENGTH_SHORT).show();
+						}else {
+							pd.dismiss();
+							Toast.makeText(RegisterActivity.this, "result fail"+result.getRetCode(), Toast.LENGTH_SHORT).show();
+						}
+					}
 
+					@Override
+					public void onError(String error) {
+						pd.dismiss();
+						Toast.makeText(RegisterActivity.this, "error"+error, Toast.LENGTH_SHORT).show();
+					}
+				});
 	}
 
 	public void registerEMServer(){
