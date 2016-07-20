@@ -37,12 +37,15 @@ import java.util.Map;
 
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHXSDKHelper;
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
+import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.User;
 import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.utils.OkHttpUtils2;
 
 /**
  * 登陆页面
@@ -155,8 +158,12 @@ public class LoginActivity extends BaseActivity {
 				if (!progressShow) {
 					return;
 				}
-				loginEMServerSuccess();
+				//loginEMServerSuccess();
+				loginAppServer();
+
 			}
+
+
 
 			@Override
 			public void onProgress(int progress, String status) {
@@ -176,6 +183,33 @@ public class LoginActivity extends BaseActivity {
 				});
 			}
 		});
+	}
+
+	private void loginAppServer() {
+		OkHttpUtils2<Result> utils2 = new OkHttpUtils2<Result>();
+		utils2.setRequestUrl(I.REQUEST_LOGIN)
+				.addParam(I.User.USER_NAME,currentUsername)
+				.addParam(I.User.PASSWORD,currentPassword)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						Log.e(TAG,"result=="+result);
+						if (result!=null && result.isRetMsg()){
+							loginEMServerSuccess();
+						}else {
+							pd.dismiss();
+							DemoHXSDKHelper.getInstance().logout(true,null);
+							Toast.makeText(getApplicationContext(), R.string.login_failure_failed + result.getRetCode(), Toast.LENGTH_LONG).show();
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						pd.dismiss();
+						Toast.makeText(getApplicationContext(),error, Toast.LENGTH_LONG).show();
+					}
+				});
 	}
 
 	public void loginEMServerSuccess(){
