@@ -233,7 +233,7 @@ public class LoginActivity extends BaseActivity {
 		robotUser.setHeader("");
 		userlist.put(Constant.CHAT_ROBOT, robotUser);
 		
-		// 存入内存
+		// 存入内存  比较重要，看看UserDao中的saveContactList方法
 		((DemoHXSDKHelper)HXSDKHelper.getInstance()).setContactList(userlist);
 		// 存入db
 		UserDao dao = new UserDao(LoginActivity.this);

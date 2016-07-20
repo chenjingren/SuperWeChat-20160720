@@ -13,11 +13,10 @@
  */
 package cn.ucai.superwechat.db;
 
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 
+import java.util.List;
+import java.util.Map;
 
 import cn.ucai.superwechat.domain.RobotUser;
 import cn.ucai.superwechat.domain.User;
@@ -47,6 +46,7 @@ public class UserDao {
 	 * 
 	 * @param contactList
 	 */
+	//接着查看DemoDBManager中的saveContactList方法
 	public void saveContactList(List<User> contactList) {
 	    DemoDBManager.getInstance().saveContactList(contactList);
 	}

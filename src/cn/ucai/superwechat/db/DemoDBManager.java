@@ -1,25 +1,28 @@
 package cn.ucai.superwechat.db;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import com.easemob.util.HanziToPinyin;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.domain.InviteMessage;
 import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
 import cn.ucai.superwechat.domain.RobotUser;
 import cn.ucai.superwechat.domain.User;
-import com.easemob.util.HanziToPinyin;
 
 public class DemoDBManager {
     static private DemoDBManager dbMgr = new DemoDBManager();
+
+    //对DbOpenHelper的查看，这里面是创建了数据表
     private DbOpenHelper dbHelper;
     
     void onInit(Context context){
@@ -38,7 +41,9 @@ public class DemoDBManager {
     synchronized public void saveContactList(List<User> contactList) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db.isOpen()) {
+            //先将原来的数据表删除，然后重新从网络上加载联系人集合
             db.delete(UserDao.TABLE_NAME, null, null);
+            //遍历获取的新的联系人的集合，再添加到values里面
             for (User user : contactList) {
                 ContentValues values = new ContentValues();
                 values.put(UserDao.COLUMN_NAME_ID, user.getUsername());
