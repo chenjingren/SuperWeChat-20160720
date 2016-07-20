@@ -17,7 +17,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig{
-        applicatinId "cn.ucai.superwechat"
+        applicationId "cn.ucai.superwechat"
     }
 
     sourceSets {
