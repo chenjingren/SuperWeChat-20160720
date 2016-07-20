@@ -199,14 +199,16 @@ public class LoginActivity extends BaseActivity {
 							loginEMServerSuccess();
 						}else {
 							pd.dismiss();
-							DemoHXSDKHelper.getInstance().logout(true,null);
+							//DemoHXSDKHelper.getInstance().logout(true,null);
 							Toast.makeText(getApplicationContext(), R.string.login_failure_failed + result.getRetCode(), Toast.LENGTH_LONG).show();
 						}
 					}
 
 					@Override
 					public void onError(String error) {
+						Log.e(TAG,"error=="+error);
 						pd.dismiss();
+						DemoHXSDKHelper.getInstance().logout(true,null);
 						Toast.makeText(getApplicationContext(),error, Toast.LENGTH_LONG).show();
 					}
 				});
