@@ -103,13 +103,18 @@ public class LoginActivity extends BaseActivity {
 	 * @param view
 	 */
 	public void login(View view) {
+
+		//判断网络是否正常连接
 		if (!CommonUtils.isNetWorkConnected(this)) {
 			Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
 			return;
 		}
+		//获取用户名密码
 		currentUsername = usernameEditText.getText().toString().trim();
 		currentPassword = passwordEditText.getText().toString().trim();
 
+
+		//对用户名、密码进行非空判断
 		if (TextUtils.isEmpty(currentUsername)) {
 			Toast.makeText(this, R.string.User_name_cannot_be_empty, Toast.LENGTH_SHORT).show();
 			return;
@@ -119,6 +124,7 @@ public class LoginActivity extends BaseActivity {
 			return;
 		}
 
+		//上面验证都正常的话，进度对话框开始转圈，即登录过程，等待登录
 		progressShow = true;
 		final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
 		pd.setCanceledOnTouchOutside(false);
@@ -146,7 +152,7 @@ public class LoginActivity extends BaseActivity {
 				SuperWeChatApplication.getInstance().setPassword(currentPassword);
 
 				try {
-					// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+					// ** 第一次登录或者之前logout后（退出登录）再登录，加载所有本地群和回话
 					// ** manually load all local groups and
 				    EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
