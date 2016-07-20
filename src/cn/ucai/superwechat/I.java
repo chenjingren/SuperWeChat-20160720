@@ -2,6 +2,9 @@ package cn.ucai.superwechat;
 
 public interface I {
 
+	String SERVER_ROOT = "http:10.0.2.2:8080/SuperWeChatServer/Server";
+	String QUESTION = "?";
+
 	interface User {
 		String TABLE_NAME							=		"t_superwechat_user";
 		String USER_NAME 							= 		"m_user_name";					//用户账号
