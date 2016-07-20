@@ -2,21 +2,21 @@ package cn.ucai.superwechat;
 
 public interface I {
 
-	public static interface User {
+	interface User {
 		String TABLE_NAME							=		"t_superwechat_user";
 		String USER_NAME 							= 		"m_user_name";					//用户账号
 		String PASSWORD 							= 		"m_user_password";				//用户密码
 		String NICK 								= 		"m_user_nick";					//用户昵称
 	}
 	
-	public static interface Contact {
+	interface Contact {
 		String TABLE_NAME 							= 		"t_superwechat_contact";
 		String CONTACT_ID 							= 		"m_contact_id";					//主键
 		String USER_NAME 							= 		"m_contact_user_name";			//用户账号
 		String CU_NAME 								= 		"m_contact_cname";				//好友账号
 	}
 	
-	public static interface Group {
+	interface Group {
 		String TABLE_NAME 							= 		"t_superwechat_group";
 		String GROUP_ID 							= 		"m_group_id";					// 主键
 		String HX_ID 								= 		"m_group_hxid";					//环信群组id
@@ -30,7 +30,7 @@ public interface I {
 		String ALLOW_INVITES 						= 		"m_group_allow_invites";		//是否可以邀请
 	}
 	
-	public static interface Member {
+	interface Member {
 		String TABLE_NAME 							= 		"t_superwechat_member";
 		String MEMBER_ID 							= 		"m_member_id";					//主键
 		String USER_NAME 							= 		"m_member_user_name";			//用户账号
@@ -39,7 +39,7 @@ public interface I {
 		String PERMISSION 							= 		"m_member_permission";			//用户对群组的权限\n0:普通用户\n1:群组所有者
 	}
 	
-	public static interface Avatar {
+	interface Avatar {
 		String TABLE_NAME 							= 		"t_superwechat_avatar";
 		String AVATAR_ID 							= 		"m_avatar_id";					//主键
 		String USER_NAME 							= 		"m_avatar_user_name";			//用户账号或者群组账号
@@ -48,7 +48,7 @@ public interface I {
 		String UPDATE_TIME 							= 		"m_avatar_last_update_time";	//最后更新时间
 	}
 	
-	public static interface Location {
+	interface Location {
 		String TABLE_NAME 							= 		"t_superwechat_location";
 		String LOCATION_ID 							= 		"m_location_id";				//主键
 		String USER_NAME 							= 		"m_location_user_name";			//用户账号
