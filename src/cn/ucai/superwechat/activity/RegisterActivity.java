@@ -22,9 +22,10 @@ import android.widget.Toast;
 
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
-import cn.ucai.superwechat.SuperWeChatApplication;
-import cn.ucai.superwechat.R;
 import com.easemob.exceptions.EaseMobException;
+
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
 
 /**
  * 注册页
@@ -32,14 +33,24 @@ import com.easemob.exceptions.EaseMobException;
  */
 public class RegisterActivity extends BaseActivity {
 	private EditText userNameEditText;
+	private EditText userNickEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+
+		initView();
+
+	}
+
+	private void initView() {
 		userNameEditText = (EditText) findViewById(R.id.username);
+		userNickEditText = (EditText) findViewById(R.id.usernick);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
 	}
@@ -86,7 +97,7 @@ public class RegisterActivity extends BaseActivity {
 									pd.dismiss();
 								// 保存用户名
 								SuperWeChatApplication.getInstance().setUserName(username);
-								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), 0).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
 								finish();
 							}
 						});
