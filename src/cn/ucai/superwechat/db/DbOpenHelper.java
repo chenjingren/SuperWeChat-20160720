@@ -24,6 +24,8 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 4;
 	private static DbOpenHelper instance;
 
+
+	//创建表的时候执行的sql语句（环信原本是创建4个数据表）
 	private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
 			+ UserDao.TABLE_NAME + " ("
 			+ UserDao.COLUMN_NAME_NICK + " TEXT, "
@@ -69,6 +71,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		//执行sql语句来创建表
 		db.execSQL(USERNAME_TABLE_CREATE);
 		db.execSQL(INIVTE_MESSAGE_TABLE_CREATE);
 		db.execSQL(CREATE_PREF_TABLE);
