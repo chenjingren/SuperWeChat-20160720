@@ -179,6 +179,7 @@ public class RegisterActivity extends BaseActivity {
 							registerEMServer();
 							Toast.makeText(RegisterActivity.this, "result success" + result.getRetCode(), Toast.LENGTH_SHORT).show();
 						}else {
+							Log.e(TAG,"register fail");
 							pd.dismiss();
 							Toast.makeText(RegisterActivity.this, "result fail"+result.getRetCode(), Toast.LENGTH_SHORT).show();
 						}
