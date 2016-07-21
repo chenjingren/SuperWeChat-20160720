@@ -202,8 +202,11 @@ public class LoginActivity extends BaseActivity {
 						if (result!=null && result.isRetMsg()){
 							UserAvatar user = (UserAvatar) result.getRetData();
 							Log.e(TAG,"user======"+user);
-							saveUserToDB(user);
-							loginEMServerSuccess();
+							if (user!=null){
+								saveUserToDB(user);
+								loginEMServerSuccess(user);
+							}
+
 						}else {
 							pd.dismiss();
 							//DemoHXSDKHelper.getInstance().logout(true,null);
@@ -226,17 +229,20 @@ public class LoginActivity extends BaseActivity {
 
 	private void saveUserToDB(UserAvatar user) {
 		Log.e(TAG,"saveUserToDB.user==="+user);
-		if (user!=null){
+		//if (user!=null){
 			// 存入db
 			UserDao dao = new UserDao(LoginActivity.this);
 			dao.saveUserAvatar(user);
-		}
+		//}
 	}
 
-	public void loginEMServerSuccess(){
+	public void loginEMServerSuccess(UserAvatar user){
 		// 登陆成功，保存用户名密码
 		SuperWeChatApplication.getInstance().setUserName(currentUsername);
 		SuperWeChatApplication.getInstance().setPassword(currentPassword);
+
+		SuperWeChatApplication.getInstance().setUser(user);
+		SuperWeChatApplication.currentUserNick = user.getMUserNick();
 
 		try {
 			// ** 第一次登录或者之前logout后（退出登录）再登录，加载所有本地群和回话
