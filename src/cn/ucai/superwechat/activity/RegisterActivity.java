@@ -37,6 +37,7 @@ import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.listener.OnSetAvatarListener;
 import cn.ucai.superwechat.utils.OkHttpUtils2;
+import cn.ucai.superwechat.utils.Utils;
 
 /**
  * 注册页
@@ -177,11 +178,14 @@ public class RegisterActivity extends BaseActivity {
 						if (result.isRetMsg()){
 							Log.e(TAG,"result=="+result);
 							registerEMServer();
-							Toast.makeText(RegisterActivity.this, "result success" + result.getRetCode(), Toast.LENGTH_SHORT).show();
+							//Toast.makeText(RegisterActivity.this, "result success" + result.getRetCode(), Toast.LENGTH_SHORT).show();
+							Toast.makeText(RegisterActivity.this, "register success" + Utils.getResourceString(RegisterActivity.this,result.getRetCode()),
+									Toast.LENGTH_SHORT).show();
 						}else {
 							Log.e(TAG,"register fail");
 							pd.dismiss();
-							Toast.makeText(RegisterActivity.this, "result fail"+result.getRetCode(), Toast.LENGTH_SHORT).show();
+							//Toast.makeText(RegisterActivity.this, "result fail"+result.getRetCode(), Toast.LENGTH_SHORT).show();
+							Toast.makeText(RegisterActivity.this, "register fail" + Utils.getResourceString(RegisterActivity.this,result.getRetCode()), Toast.LENGTH_SHORT).show();
 						}
 					}
 
