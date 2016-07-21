@@ -18,6 +18,7 @@ import android.content.Context;
 import java.util.List;
 import java.util.Map;
 
+import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.domain.RobotUser;
 import cn.ucai.superwechat.domain.User;
 
@@ -118,4 +119,15 @@ public class UserDao {
     public void saveRobotUser(List<RobotUser> robotList){
     	DemoDBManager.getInstance().saveRobotList(robotList);
     }
+
+
+	/**
+	 * 保存好友list
+	 *
+	 * @param user
+	 */
+	//接着查看DemoDBManager中的saveContactList方法
+	public void saveUserAvatar(UserAvatar user) {
+		DemoDBManager.getInstance().saveUserAvatar(user);
+	}
 }
