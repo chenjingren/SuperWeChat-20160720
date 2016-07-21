@@ -2,7 +2,7 @@ package cn.ucai.superwechat;
 
 public interface I {
 
-	String SERVER_ROOT = "http:10.0.2.2:8080/SuperWeChatServer/Server";
+	String SERVER_ROOT = "http://10.0.2.2:8080/SuperWeChatServer/Server";
 	String QUESTION = "?";
 	String EQU = "=";
 	String MSG_PREFIX_MSG = "msg_";
