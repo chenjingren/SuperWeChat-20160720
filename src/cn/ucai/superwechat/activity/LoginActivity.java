@@ -209,7 +209,7 @@ public class LoginActivity extends BaseActivity {
 						Log.e(TAG,"error=="+error);
 						pd.dismiss();
 						DemoHXSDKHelper.getInstance().logout(true,null);
-						Toast.makeText(getApplicationContext(),error, Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(),R.string.login_failure_failed, Toast.LENGTH_LONG).show();
 					}
 				});
 	}
