@@ -165,7 +165,7 @@ public class RegisterActivity extends BaseActivity {
 		File file = new File(OnSetAvatarListener.getAvatarPath(RegisterActivity.this,I.AVATAR_TYPE_USER_PATH)
 								,avatarName+I.AVATAR_SUFFIX_JPG);
 		OkHttpUtils2<Result> utils2 = new OkHttpUtils2<Result>();
-		utils2.setRequestUrl(I.SERVER_ROOT)
+		utils2.setRequestUrl(I.REQUEST_REGISTER)
 				.addParam(I.User.USER_NAME,username)
 				.addParam(I.User.NICK,usernick)
 				.addParam(I.User.PASSWORD,pwd)
@@ -184,8 +184,8 @@ public class RegisterActivity extends BaseActivity {
 						}else {
 							Log.e(TAG,"register fail");
 							pd.dismiss();
-							//Toast.makeText(RegisterActivity.this, "result fail"+result.getRetCode(), Toast.LENGTH_SHORT).show();
-							Toast.makeText(RegisterActivity.this, "register fail" + Utils.getResourceString(RegisterActivity.this,result.getRetCode()), Toast.LENGTH_SHORT).show();
+							Toast.makeText(RegisterActivity.this, "result fail"+result.getRetCode(), Toast.LENGTH_SHORT).show();
+							//Toast.makeText(RegisterActivity.this, "register fail" + Utils.getResourceString(RegisterActivity.this,result.getRetCode()), Toast.LENGTH_SHORT).show();
 						}
 					}
 
