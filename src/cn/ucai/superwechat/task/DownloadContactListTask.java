@@ -16,13 +16,13 @@ import cn.ucai.superwechat.utils.Utils;
 /**
  * Created by Administrator on 2016/7/22 0022.
  */
-public class DownloadContactList {
-    public static final String TAG = DownloadContactList.class.getName();
+public class DownloadContactListTask {
+    public static final String TAG = DownloadContactListTask.class.getName();
 
     private String username;
     Context mContext;
 
-    public DownloadContactList(Context mContext, String username) {
+    public DownloadContactListTask(Context mContext, String username) {
         this.mContext = mContext;
         this.username = username;
     }
