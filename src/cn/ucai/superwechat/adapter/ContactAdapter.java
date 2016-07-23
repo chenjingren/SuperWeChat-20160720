@@ -213,7 +213,9 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 					String username = user.getUsername();
 					
 					if(username.contains(prefixString)){
-						newValues.add(user);
+						if (!username.equals(Constant.NEW_FRIENDS_USERNAME)&&!username.equals(Constant.GROUP_USERNAME)) {
+							newValues.add(user);
+						}
 					}
 					else{
 						 final String[] words = username.split(" ");
