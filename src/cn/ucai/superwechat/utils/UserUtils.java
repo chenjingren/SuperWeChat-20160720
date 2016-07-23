@@ -74,6 +74,8 @@ public class UserUtils {
     		textView.setText(username);
     	}
     }
+
+
     
     /**
      * 设置当前用户昵称
@@ -122,6 +124,38 @@ public class UserUtils {
 				.append(I.AND)
 				.append(I.AVATAR_TYPE).append(I.EQU).append(I.AVATAR_TYPE_USER_PATH);
 		return path.toString();
+	}
+
+
+	/**
+	 * 根据username获取相应useravatar
+	 * @param username
+	 * @return
+	 */
+	public static UserAvatar getAppUserInfo(String username){
+
+		UserAvatar userAvatar = SuperWeChatApplication.getInstance().getContactMap().get(username);
+		if(userAvatar == null){
+			userAvatar = new UserAvatar(username);
+		}
+
+		return userAvatar;
+	}
+
+	/**
+	 * 设置当前登录用户的好友昵称
+	 */
+	public static void setAppUserNick(String username,TextView textView){
+		UserAvatar user = getAppUserInfo(username);
+		if(user != null){
+			if (user.getMUserNick()!=null){
+				textView.setText(user.getMUserNick());
+			}else {
+				textView.setText(username);
+			}
+		}else {
+			textView.setText(username);
+		}
 	}
     
 }

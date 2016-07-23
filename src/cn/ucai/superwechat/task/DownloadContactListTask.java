@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.SuperWeChatApplication;
@@ -43,6 +44,11 @@ public class DownloadContactListTask {
                             Log.e(TAG,"userList.size()==="+userList.size());
                             SuperWeChatApplication.getInstance().setUserList(userList);
                             mContext.sendStickyBroadcast(new Intent("update_contact_list"));
+
+                            Map<String,UserAvatar> userAvatar = SuperWeChatApplication.getInstance().getContactMap();
+                            for (UserAvatar user:userList){
+                                userAvatar.put(user.getMUserName(),user);
+                            }
                         }
                     }
 

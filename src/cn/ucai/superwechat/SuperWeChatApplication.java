@@ -19,6 +19,8 @@ import android.content.Context;
 import com.easemob.EMCallBack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.ucai.superwechat.bean.UserAvatar;
 
@@ -115,7 +117,18 @@ public class SuperWeChatApplication extends Application {
 	/**添加全局的当前登录用户信息*/
 	private UserAvatar user;
 	/**添加全局的当前登录用户的好友集合*/
-	private ArrayList<UserAvatar> userList;
+	private ArrayList<UserAvatar> userList = new ArrayList<UserAvatar>();
+
+	/**添加全局的当前登录用户的好友Map集合*/
+	private Map<String,UserAvatar> contactMap = new HashMap<String, UserAvatar>();
+
+	public Map<String, UserAvatar> getContactMap() {
+		return contactMap;
+	}
+
+	public void setContactMap(Map<String, UserAvatar> contactMap) {
+		this.contactMap = contactMap;
+	}
 
 	public ArrayList<UserAvatar> getUserList() {
 		return userList;
