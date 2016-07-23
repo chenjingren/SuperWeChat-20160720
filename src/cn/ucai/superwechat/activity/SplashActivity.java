@@ -13,9 +13,12 @@ import android.widget.TextView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechat.DemoHXSDKHelper;
+
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.bean.UserAvatar;
+import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.task.DownloadContactListTask;
 
 /**
  * 开屏页
@@ -57,9 +60,14 @@ public class SplashActivity extends BaseActivity {
 					EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
 					String userName = SuperWeChatApplication.getInstance().getUserName();
-					UserAvatar user = SuperWeChatApplication.getInstance().getUser();
+					//UserAvatar user = SuperWeChatApplication.getInstance().getUser();
 					Log.e(TAG,"userName========="+userName);
-					Log.e(TAG,"user=============="+user);
+					//Log.e(TAG,"user=============="+user);
+
+					UserDao dao = new UserDao(SplashActivity.this);
+					UserAvatar userAvatar = dao.getUserAvatar(userName);
+					Log.e(TAG,"user=========="+userAvatar);
+					new DownloadContactListTask(SplashActivity.this,userName);
 
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长

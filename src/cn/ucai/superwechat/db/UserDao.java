@@ -128,6 +128,17 @@ public class UserDao {
 	 */
 	//接着查看DemoDBManager中的saveContactList方法
 	public void saveUserAvatar(UserAvatar user) {
+
 		DemoDBManager.getInstance().saveUserAvatar(user);
+	}
+
+	/**
+	 * 获取好友list
+	 *
+	 * @return
+	 */
+	public UserAvatar getUserAvatar(String username) {
+
+		return DemoDBManager.getInstance().getUserAvatar(username);
 	}
 }
