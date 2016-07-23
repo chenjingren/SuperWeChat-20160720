@@ -59,14 +59,19 @@ public class SplashActivity extends BaseActivity {
 					long start = System.currentTimeMillis();
 					EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
+					//从全局变量中获取当前登录用户的账号
 					String userName = SuperWeChatApplication.getInstance().getUserName();
 					//UserAvatar user = SuperWeChatApplication.getInstance().getUser();
 					Log.e(TAG,"userName========="+userName);
 					//Log.e(TAG,"user=============="+user);
-
+					//根据用户账号获取用户的所有信息
 					UserDao dao = new UserDao(SplashActivity.this);
 					UserAvatar userAvatar = dao.getUserAvatar(userName);
 					Log.e(TAG,"user=========="+userAvatar);
+					//保存用户信息到全局变量中
+					SuperWeChatApplication.getInstance().setUser(userAvatar);
+					SuperWeChatApplication.currentUserNick = userAvatar.getMUserNick();
+					//下载用户的好友列表
 					new DownloadContactListTask(SplashActivity.this,userName);
 
 					long costTime = System.currentTimeMillis() - start;
