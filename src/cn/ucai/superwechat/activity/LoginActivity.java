@@ -301,13 +301,13 @@ public class LoginActivity extends BaseActivity {
 		groupUser.setHeader("");
 		userlist.put(Constant.GROUP_USERNAME, groupUser);
 		
-		// 添加"Robot"
+		/*// 添加"Robot"
 		User robotUser = new User();
 		String strRobot = getResources().getString(R.string.robot_chat);
 		robotUser.setUsername(Constant.CHAT_ROBOT);
-		robotUser.setNick(strRobot);
+		robotUser.setNick(strRobot);  我发现这里的环信小助手不注释掉的话，无论第一次登录还是第二次登录都已经不显示环信小助手了
 		robotUser.setHeader("");
-		userlist.put(Constant.CHAT_ROBOT, robotUser);
+		userlist.put(Constant.CHAT_ROBOT, robotUser);*/
 		
 		// 存入内存  比较重要，看看UserDao中的saveContactList方法
 		((DemoHXSDKHelper)HXSDKHelper.getInstance()).setContactList(userlist);
