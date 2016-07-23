@@ -2,22 +2,29 @@ package cn.ucai.superwechat.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import cn.ucai.superwechat.I;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.domain.User;
 import com.squareup.picasso.Picasso;
 
 public class UserUtils {
+
+	public static final String TAG = UserUtils.class.getName();
     /**
      * 根据username获取相应user，由于demo没有真实的用户数据，这里给的模拟的数据；
      * @param username
      * @return
      */
     public static User getUserInfo(String username){
+
         User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().get(username);
         if(user == null){
             user = new User(username);
@@ -80,13 +87,41 @@ public class UserUtils {
     
     /**
      * 保存或更新某个用户
-     * @param user
+     * @param newUser
      */
 	public static void saveUserInfo(User newUser) {
 		if (newUser == null || newUser.getUsername() == null) {
 			return;
 		}
 		((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveContact(newUser);
+	}
+
+
+
+	/**
+	 * 设置用户头像
+	 * @param username
+	 */
+	public static void setAppUserAvatar(Context context, String username, ImageView imageView){
+		String path = "";
+		path = getAppAvatarPath(username);
+		if(path != null && username != null){
+			Log.e(TAG,"path ==="+path);
+			Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(imageView);
+		}else{
+			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+		}
+	}
+
+	public static String getAppAvatarPath(String username){
+		StringBuilder path = new StringBuilder();
+		path.append(I.SERVER_ROOT).append(I.QUESTION).
+				append(I.KEY_REQUEST).append(I.EQU).append(I.REQUEST_DOWNLOAD_AVATAR)
+				.append(I.AND)
+				.append(I.NAME_OR_HXID).append(I.EQU).append(username)
+				.append(I.AND)
+				.append(I.AVATAR_TYPE).append(I.EQU).append(I.AVATAR_TYPE_USER_PATH);
+		return path.toString();
 	}
     
 }

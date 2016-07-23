@@ -6,6 +6,7 @@ public interface I {
 	String QUESTION = "?";
 	String EQU = "=";
 	String MSG_PREFIX_MSG = "msg_";
+	String AND = "&";
 
 	interface User {
 		String TABLE_NAME							=		"t_superwechat_user";
