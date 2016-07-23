@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.media.audiofx.LoudnessEnhancer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -196,8 +197,9 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 			if(mOriginalList==null){
 			    mOriginalList = new ArrayList<User>();
 			}
-			EMLog.d(TAG, "contacts original size: " + mOriginalList.size());
-			EMLog.d(TAG, "contacts copy size: " + copyUserList.size());
+			Log.e(TAG, "contacts original size: " + mOriginalList.size());
+			Log.e(TAG, "contacts copy size: " + copyUserList.size());
+			Log.e(TAG,"prefix===================" +prefix);
 			
 			if(prefix==null || prefix.length()==0){
 				results.values = copyUserList;
