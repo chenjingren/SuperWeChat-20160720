@@ -212,7 +212,7 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 					final User user = mOriginalList.get(i);
 					String username = user.getUsername();
 					
-					if(username.startsWith(prefixString)){
+					if(username.contains(prefixString)){
 						newValues.add(user);
 					}
 					else{
