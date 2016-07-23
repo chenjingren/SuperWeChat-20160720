@@ -83,6 +83,8 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 		}
 		
 		User user = getItem(position);
+		Log.e(TAG,"user ===="+user);
+
 		if(user == null)
 			Log.d("ContactAdapter", position + "");
 		//设置nick，demo里不涉及到完整user，用username代替nick显示
