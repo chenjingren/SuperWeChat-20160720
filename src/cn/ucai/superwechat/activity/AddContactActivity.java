@@ -39,6 +39,7 @@ import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.utils.OkHttpUtils2;
+import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.utils.Utils;
 
 public class AddContactActivity extends BaseActivity{
@@ -98,7 +99,14 @@ public class AddContactActivity extends BaseActivity{
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 				return;
 			}
-			
+
+			UserAvatar userAvatar = SuperWeChatApplication.getInstance().getContactMap().get(toAddUsername);
+			if (userAvatar!=null){
+				startActivity(new Intent(AddContactActivity.this,UserProfileActivity.class)
+						.putExtra("username",toAddUsername));
+				return;
+			}
+
 			// TODO 从服务器获取此contact,如果不存在提示不存在此用户
 
 			OkHttpUtils2<String> utils2 = new OkHttpUtils2<String>();
@@ -117,7 +125,9 @@ public class AddContactActivity extends BaseActivity{
 								if (userAvatar!=null){
 									//服务器存在此用户，显示此用户和添加按钮
 									searchedUserLayout.setVisibility(View.VISIBLE);
-									nameText.setText(toAddUsername);
+                                    UserUtils.setAppUserAvatar(AddContactActivity.this,toAddUsername,avatar);
+                                    UserUtils.setAppUserNick(toAddUsername,nameText);
+									//nameText.setText(toAddUsername);
 									tvNothing.setVisibility(View.GONE);
 								}
 							}else {
