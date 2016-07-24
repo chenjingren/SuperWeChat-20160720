@@ -80,14 +80,14 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			UserUtils.setCurrentUserNick(tvNickName);
 			UserUtils.setCurrentUserAvatar(this, headAvatar);
 		} else if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
-			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
-			UserUtils.setCurrentUserNick(tvNickName);
+			//tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
+			UserUtils.setAppCurrentUserNick(tvNickName);
 			UserUtils.setCurrentUserAvatar(this, headAvatar);
 		} else {
 			tvUsername.setText(username);
-			UserUtils.setUserNick(username, tvNickName);
-			UserUtils.setUserAvatar(this, username, headAvatar);
-			asyncFetchUserInfo(username);
+			UserUtils.setAppUserNick(username, tvNickName);
+			UserUtils.setAppUserAvatar(this, username, headAvatar);
+			//asyncFetchUserInfo(username);
 		}
 	}
 

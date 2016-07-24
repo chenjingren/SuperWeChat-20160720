@@ -78,14 +78,26 @@ public class UserUtils {
 
     
     /**
-     * 设置当前用户昵称
-     */
-    public static void setCurrentUserNick(TextView textView){
-    	User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
-    	if(textView != null){
-    		textView.setText(user.getNick());
-    	}
-    }
+	 * 设置当前用户昵称
+	 */
+	public static void setCurrentUserNick(TextView textView){
+		User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
+		if(textView != null){
+			textView.setText(user.getNick());
+		}
+	}
+
+	/**
+	 * 设置当前用户昵称
+	 */
+	public static void setAppCurrentUserNick(TextView textView){
+		//User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
+		UserAvatar user = SuperWeChatApplication.getInstance().getUser();
+		Log.e(TAG,"setAppCurrentUserNick.user==="+user);
+		if(textView != null){
+			textView.setText(user.getMUserNick());
+		}
+	}
     
     /**
      * 保存或更新某个用户
