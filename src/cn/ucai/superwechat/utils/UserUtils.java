@@ -176,6 +176,20 @@ public class UserUtils {
 		}
 	}
 
+
+    /**
+     * 设置用户的昵称
+     */
+    public static void setAppUserNickByUser(UserAvatar user,TextView textView){
+        if (user != null) {
+            if (user.getMUserNick() != null) {
+                textView.setText(user.getMUserNick());
+            } else {
+                textView.setText(user.getMUserName());
+            }
+        }
+    }
+
 	/*public static void setAppCurrentUserAvatar(Context context, ImageView imageView) {
 		String path = "";
 		String username = SuperWeChatApplication.getInstance().getUserName();
