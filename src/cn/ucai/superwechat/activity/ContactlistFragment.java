@@ -22,8 +22,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -268,6 +270,10 @@ public class ContactlistFragment extends Fragment {
 		} else {
 			progressBar.setVisibility(View.GONE);
 		}
+
+
+		registerMyReceiver();
+
 	}
 
 	@Override
@@ -427,6 +433,8 @@ public class ContactlistFragment extends Fragment {
 			((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().removeSyncContactInfoListener(contactInfoSyncListener);
 		}
 		super.onDestroy();
+
+		getActivity().unregisterReceiver(MyReceiver);
 	}
 	
 	public void showProgressBar(boolean show) {
@@ -497,6 +505,21 @@ public class ContactlistFragment extends Fragment {
 	    }else if(((MainActivity)getActivity()).getCurrentAccountRemoved()){
 	    	outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
 	    }
-	    
+	}
+
+	class UpdateContactReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	UpdateContactReceiver MyReceiver;
+
+	public void registerMyReceiver(){
+		MyReceiver = new UpdateContactReceiver();
+		IntentFilter filter = new IntentFilter("update_contact_list");
+		getActivity().registerReceiver(MyReceiver,filter);
 	}
 }
