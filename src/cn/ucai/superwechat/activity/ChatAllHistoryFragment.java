@@ -249,7 +249,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	/**
 	 * 根据最后一条消息的时间排序
 	 * 
-	 * @param 
+	 * @param
 	 */
 	private void sortConversationByLastChatTime(List<Pair<Long, EMConversation>> conversationList) {
 		Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {
