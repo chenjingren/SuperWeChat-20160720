@@ -511,13 +511,15 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	 * 
 	 */
 	public class MyContactListener implements EMContactListener {
-
 		@Override
-		public void onContactAdded(List<String> usernameList) {			
+		public void onContactAdded(List<String> usernameList) {
+			Log.e(TAG,"onContactAdded.usernameList====="+usernameList);
+
 			// 保存增加的联系人
 			Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
 			Map<String, User> toAddUsers = new HashMap<String, User>();
 			for (String username : usernameList) {
+				Log.e(TAG,"onContactAdded.username===="+username);
 				User user = setUserHead(username);
 				// 添加好友时可能会回调added方法两次
 				if (!localUsers.containsKey(username)) {
@@ -534,9 +536,11 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
 		@Override
 		public void onContactDeleted(final List<String> usernameList) {
+			Log.e(TAG,"onContactDeleted.usernameList====="+usernameList);
 			// 被删除
 			Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
 			for (String username : usernameList) {
+				Log.e(TAG,"onContactDeleted.username===="+username);
 				localUsers.remove(username);
 				userDao.deleteContact(username);
 				inviteMessgeDao.deleteMessage(username);
@@ -562,6 +566,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
 		@Override
 		public void onContactInvited(String username, String reason) {
+			Log.e(TAG,"onContactInvited.username====="+username+",reason===="+reason);
 			
 			// 接到邀请的消息，如果不处理(同意或拒绝)，掉线后，服务器会自动再发过来，所以客户端不需要重复提醒
 			List<InviteMessage> msgs = inviteMessgeDao.getMessagesList();
@@ -585,6 +590,8 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
 		@Override
 		public void onContactAgreed(String username) {
+
+			Log.e(TAG,"onContactAgreed.username====="+username);
 			List<InviteMessage> msgs = inviteMessgeDao.getMessagesList();
 			for (InviteMessage inviteMessage : msgs) {
 				if (inviteMessage.getFrom().equals(username)) {
