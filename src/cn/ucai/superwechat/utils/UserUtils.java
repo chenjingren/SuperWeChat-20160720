@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.activity.UserProfileActivity;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
@@ -88,14 +89,19 @@ public class UserUtils {
 	}
 
 	/**
-	 * 设置当前用户昵称
+	 * 设置当前登录用户昵称
 	 */
 	public static void setAppCurrentUserNick(TextView textView){
 		//User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
 		UserAvatar user = SuperWeChatApplication.getInstance().getUser();
 		Log.e(TAG,"setAppCurrentUserNick.user==="+user);
-		if(textView != null){
-			textView.setText(user.getMUserNick());
+		if(textView != null &&user!=null){
+			if (user.getMUserNick()!=null) {
+				textView.setText(user.getMUserNick());
+			}else {
+				textView.setText(user.getMUserName());
+			}
+
 		}
 	}
     
@@ -169,5 +175,16 @@ public class UserUtils {
 			textView.setText(username);
 		}
 	}
-    
+
+	/*public static void setAppCurrentUserAvatar(Context context, ImageView imageView) {
+		String path = "";
+		String username = SuperWeChatApplication.getInstance().getUserName();
+		path = getAppAvatarPath(username);
+		if(path != null && username != null){
+			Log.e(TAG,"path ==="+path);
+			Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(imageView);
+		}else{
+			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+		}
+	}*/
 }

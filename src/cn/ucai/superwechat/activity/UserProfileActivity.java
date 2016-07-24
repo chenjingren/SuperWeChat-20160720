@@ -21,12 +21,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import cn.ucai.superwechat.R;
 import com.easemob.EMValueCallBack;
+
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechat.DemoHXSDKHelper;
-import cn.ucai.superwechat.R;
+
 import cn.ucai.superwechat.domain.User;
 import cn.ucai.superwechat.utils.UserUtils;
 import com.squareup.picasso.Picasso;
@@ -75,15 +77,18 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			headPhotoUpdate.setVisibility(View.GONE);
 			iconRightArrow.setVisibility(View.INVISIBLE);
 		}
-		if (username == null) {
+		if (username == null || username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
-			UserUtils.setCurrentUserNick(tvNickName);
-			UserUtils.setCurrentUserAvatar(this, headAvatar);
-		} else if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
-			//tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAppCurrentUserNick(tvNickName);
-			UserUtils.setCurrentUserAvatar(this, headAvatar);
-		} else {
+			UserUtils.setAppUserAvatar(this,SuperWeChatApplication.getInstance().getUserName(),headAvatar);
+		}
+			/*else if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
+				//tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
+				tvUsername.setText(SuperWeChatApplication.getInstance().getUserName());
+				UserUtils.setAppCurrentUserNick(tvNickName);
+				UserUtils.setAppCurrentUserAvatar(this, headAvatar);
+			}*/
+		else {
 			tvUsername.setText(username);
 			UserUtils.setAppUserNick(username, tvNickName);
 			UserUtils.setAppUserAvatar(this, username, headAvatar);
