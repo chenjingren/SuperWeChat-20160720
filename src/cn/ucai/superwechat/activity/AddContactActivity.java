@@ -33,6 +33,9 @@ import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 
 import com.baidu.mapapi.map.Text;
 import com.easemob.chat.EMContactManager;
+
+import java.util.ArrayList;
+
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
@@ -122,7 +125,7 @@ public class AddContactActivity extends BaseActivity{
 							if (result!=null &&result.isRetMsg()){
 								UserAvatar userAvatar = (UserAvatar) result.getRetData();
 								Log.e(TAG,"userAvatar==========="+userAvatar);
-								if (userAvatar!=null){
+								if (userAvatar!=null&&!isContact(userAvatar)){
 									//服务器存在此用户，显示此用户和添加按钮
 									searchedUserLayout.setVisibility(View.VISIBLE);
                                     UserUtils.setAppUserAvatar(AddContactActivity.this,toAddUsername,avatar);
@@ -143,9 +146,6 @@ public class AddContactActivity extends BaseActivity{
 							tvNothing.setVisibility(View.VISIBLE);
 						}
 					});
-			
-
-			
 		} 
 	}	
 	
@@ -198,6 +198,41 @@ public class AddContactActivity extends BaseActivity{
 				}
 			}
 		}).start();
+	}
+
+	public boolean isContact(final UserAvatar userAvatar){
+		final boolean[] isContact = new boolean[1];
+
+		OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
+		utils2.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
+				.addParam(I.Contact.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+
+						Log.e(TAG,"s==="+s);
+						Result result = Utils.getListResultFromJson(s, UserAvatar.class);
+						if (result!=null&&result.isRetMsg()){
+							Log.e(TAG,"result===="+result);
+							ArrayList<UserAvatar> userList = (ArrayList<UserAvatar>) result.getRetData();
+							if (userList.contains(userAvatar)){
+								isContact[0] =true;
+							}else {
+								isContact[0] =false;
+							}
+						}else {
+							isContact[0] =false;
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error===="+error);
+						isContact[0]=false;
+					}
+				});
+		return isContact[0];
 	}
 	
 	public void back(View v) {
