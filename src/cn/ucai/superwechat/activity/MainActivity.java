@@ -611,7 +611,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                             public void onSuccess(Result result) {
                                 Log.e(TAG,"result===="+result);
                                 if (result!=null&&result.isRetMsg()){
-
+                                    Log.e(TAG,"result====remove user");
                                     /*Map<String, UserAvatar> userAvatarMap = SuperWeChatApplication.getInstance().getContactMap();
                                     List<UserAvatar> userList = SuperWeChatApplication.getInstance().getUserList();
                                     UserAvatar userAvatar = userAvatarMap.get(username);
@@ -643,6 +643,8 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 				/*//保存好友名字
                 toDeleteUserNames.add(username);*/
 			}
+
+            Log.e(TAG,"onContactDeleted.usernameList=====  2222222");
 
 			runOnUiThread(new Runnable() {
 				public void run() {

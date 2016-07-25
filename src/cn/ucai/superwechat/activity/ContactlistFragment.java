@@ -31,6 +31,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -51,6 +52,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import cn.ucai.superwechat.I;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper.HXSyncListener;
 import com.easemob.chat.EMContactManager;
@@ -58,9 +61,12 @@ import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.adapter.ContactAdapter;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.User;
+import cn.ucai.superwechat.utils.OkHttpUtils2;
 import cn.ucai.superwechat.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
@@ -363,6 +369,45 @@ public class ContactlistFragment extends Fragment {
 
 			}
 		}).start();
+
+
+		String currentUserName = SuperWeChatApplication.getInstance().getUserName();
+		OkHttpUtils2<Result> utils2 = new OkHttpUtils2<Result>();
+		utils2.setRequestUrl(I.REQUEST_DELETE_CONTACT)
+				.addParam(I.Contact.USER_NAME,currentUserName)
+				.addParam(I.Contact.CU_NAME,tobeDeleteUser.getUsername())
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						Log.e(TAG,"result===="+result);
+						if (result!=null&&result.isRetMsg()){
+							Log.e(TAG,"result====remove user");
+                                    /*Map<String, UserAvatar> userAvatarMap = SuperWeChatApplication.getInstance().getContactMap();
+                                    List<UserAvatar> userList = SuperWeChatApplication.getInstance().getUserList();
+                                    UserAvatar userAvatar = userAvatarMap.get(username);
+                                    userList.remove(userAvatar);
+                                    userAvatarMap.remove(username);
+
+                                    // 被删除
+                                    Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
+                                    localUsers.remove(username);*/
+
+							((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().remove(tobeDeleteUser.getUsername());
+							UserAvatar user = SuperWeChatApplication.getInstance().getContactMap().get(tobeDeleteUser.getUsername());
+							SuperWeChatApplication.getInstance().getUserList().remove(user);
+							SuperWeChatApplication.getInstance().getContactMap().remove(tobeDeleteUser.getUsername());
+
+							getActivity().sendStickyBroadcast(new Intent("update_contact_list"));
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error===="+error);
+
+					}
+				});
 
 	}
 
