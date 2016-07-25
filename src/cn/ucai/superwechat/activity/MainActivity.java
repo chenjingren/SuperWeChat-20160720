@@ -612,7 +612,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                                 Log.e(TAG,"result===="+result);
                                 if (result!=null&&result.isRetMsg()){
 
-                                    Map<String, UserAvatar> userAvatarMap = SuperWeChatApplication.getInstance().getContactMap();
+                                    /*Map<String, UserAvatar> userAvatarMap = SuperWeChatApplication.getInstance().getContactMap();
                                     List<UserAvatar> userList = SuperWeChatApplication.getInstance().getUserList();
                                     UserAvatar userAvatar = userAvatarMap.get(username);
                                     userList.remove(userAvatar);
@@ -620,7 +620,12 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
                                     // 被删除
                                     Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
-                                    localUsers.remove(username);
+                                    localUsers.remove(username);*/
+
+                                    ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().remove(username);
+                                    UserAvatar user = SuperWeChatApplication.getInstance().getContactMap().get(username);
+                                    SuperWeChatApplication.getInstance().getUserList().remove(user);
+                                    SuperWeChatApplication.getInstance().getContactMap().remove(username);
 
                                     userDao.deleteContact(username);
                                     inviteMessgeDao.deleteMessage(username);
