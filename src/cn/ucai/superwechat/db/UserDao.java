@@ -141,4 +141,8 @@ public class UserDao {
 
 		return DemoDBManager.getInstance().getUserAvatar(username);
 	}
+
+	public void updateUserNick(UserAvatar userAvatar) {
+		DemoDBManager.getInstance().updateUserNick(userAvatar);
+	}
 }
