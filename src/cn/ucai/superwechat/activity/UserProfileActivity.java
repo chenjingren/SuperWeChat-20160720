@@ -118,9 +118,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		case R.id.user_head_avatar:
 			//uploadHeadPhoto();
 
-            String userName = SuperWeChatApplication.getInstance().getUserName();
+
             mOnSerAvatarListener = new OnSetAvatarListener(UserProfileActivity.this,
-                    R.id.layout_avatar,userName,I.AVATAR_TYPE_USER_PATH);
+                    R.id.layout_avatar,getAvatarName(),I.AVATAR_TYPE_USER_PATH);
 
 
 			break;
@@ -305,32 +305,43 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (resultCode!=RESULT_OK) {
-            mOnSerAvatarListener.setAvatar(requestCode, data, headAvatar);
+        if (resultCode!=RESULT_OK){
+            return;
+        }
+
+        mOnSerAvatarListener.setAvatar(requestCode, data, headAvatar);
+        if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO) {
+            Log.e(TAG,"要上传头像了");
+
             uploadAppUserAvatar();
         }
 	}
 
     private void uploadAppUserAvatar() {
-        File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,getAvatarName()),
+        File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,I.AVATAR_TYPE_USER_PATH),
                 avatarName+I.AVATAR_SUFFIX_JPG);
+        String userName = SuperWeChatApplication.getInstance().getUserName();
         OkHttpUtils2<Result> utils2 = new OkHttpUtils2<>();
         utils2.setRequestUrl(I.REQUEST_UPLOAD_AVATAR)
                 .addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH)
-                .addParam(I.NAME_OR_HXID,avatarName)
+                .addParam(I.NAME_OR_HXID,userName)
                 .addFile(file)
                 .targetClass(Result.class)
                 .execute(new OkHttpUtils2.OnCompleteListener<Result>() {
                     @Override
                     public void onSuccess(Result result) {
+                        Log.e(TAG,"result===="+result);
                         if (result.isRetMsg()){
-
+                            Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(String error) {
-
+                        Log.e(TAG,"error===="+error);
+                        Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
