@@ -14,11 +14,15 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.task.DownloadContactListTask;
+import cn.ucai.superwechat.utils.OkHttpUtils2;
+import cn.ucai.superwechat.utils.Utils;
 
 /**
  * 开屏页
@@ -68,7 +72,35 @@ public class SplashActivity extends BaseActivity {
 					UserDao dao = new UserDao(SplashActivity.this);
 					UserAvatar userAvatar = dao.getUserAvatar(userName);
 					Log.e(TAG,"user=========="+userAvatar);
-					if (userAvatar!=null){
+
+					if(userAvatar==null) {
+						OkHttpUtils2<String> utils2 = new OkHttpUtils2<String>();
+						utils2.setRequestUrl(I.REQUEST_FIND_USER)
+								.addParam(I.User.USER_NAME, userName)
+								.targetClass(String.class)
+								.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+									@Override
+									public void onSuccess(String s) {
+										Log.e(TAG,"s============"+s);
+										Result result = Utils.getResultFromJson(s, UserAvatar.class);
+										Log.e(TAG,"result========"+result);
+										if (result!=null&&result.isRetMsg()){
+											UserAvatar userAvatar1 = (UserAvatar) result.getRetData();
+											if (userAvatar1!=null){
+												Log.e(TAG,"userAvatar1============"+userAvatar1);
+												//保存用户信息到全局变量中
+												SuperWeChatApplication.getInstance().setUser(userAvatar1);
+												SuperWeChatApplication.currentUserNick = userAvatar1.getMUserNick();
+											}
+										}
+									}
+
+									@Override
+									public void onError(String error) {
+                                        Log.e(TAG,"error========"+error);
+									}
+								});
+					}else {
 						//保存用户信息到全局变量中
 						SuperWeChatApplication.getInstance().setUser(userAvatar);
 						SuperWeChatApplication.currentUserNick = userAvatar.getMUserNick();
