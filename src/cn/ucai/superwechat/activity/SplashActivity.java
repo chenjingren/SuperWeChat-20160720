@@ -101,6 +101,7 @@ public class SplashActivity extends BaseActivity {
 									}
 								});
 					}else {
+                        Log.e(TAG,"USERAVATAR!=NULL");
 						//保存用户信息到全局变量中
 						SuperWeChatApplication.getInstance().setUser(userAvatar);
 						SuperWeChatApplication.currentUserNick = userAvatar.getMUserNick();
