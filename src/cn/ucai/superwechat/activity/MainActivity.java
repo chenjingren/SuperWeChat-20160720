@@ -593,12 +593,53 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			Log.e(TAG,"onContactDeleted.usernameList====="+usernameList);
 			// 被删除
 			Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
+
+
+            ArrayList<String> toDeleteUserNames = new ArrayList<String>();
+
 			for (String username : usernameList) {
 				Log.e(TAG,"onContactDeleted.username===="+username);
 				localUsers.remove(username);
+
+				//保存好友名字
+                toDeleteUserNames.add(username);
+
+
 				userDao.deleteContact(username);
 				inviteMessgeDao.deleteMessage(username);
 			}
+
+            String currentUserName = SuperWeChatApplication.getInstance().getUserName();
+            for(final String name:toDeleteUserNames){
+                OkHttpUtils2<Result> utils2 = new OkHttpUtils2<Result>();
+                utils2.setRequestUrl(I.REQUEST_DELETE_CONTACT)
+                        .addParam(I.Contact.USER_NAME,currentUserName)
+                        .addParam(I.Contact.CU_NAME,name)
+                        .targetClass(Result.class)
+                        .execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+                            @Override
+                            public void onSuccess(Result result) {
+                                Log.e(TAG,"result===="+result);
+                                if (result!=null&&result.isRetMsg()){
+
+                                    Map<String, UserAvatar> userAvatarMap = SuperWeChatApplication.getInstance().getContactMap();
+                                    List<UserAvatar> userList = SuperWeChatApplication.getInstance().getUserList();
+                                    UserAvatar userAvatar = userAvatarMap.get(name);
+                                    userList.remove(userAvatar);
+                                    userAvatarMap.remove(name);
+                                    sendStickyBroadcast(new Intent("update_contact_list"));
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                Log.e(TAG,"error===="+error);
+
+                            }
+                        });
+            }
+
+
 			runOnUiThread(new Runnable() {
 				public void run() {
 					// 如果正在与此用户的聊天页面
