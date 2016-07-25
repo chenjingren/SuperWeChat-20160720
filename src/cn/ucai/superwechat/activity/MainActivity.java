@@ -591,30 +591,20 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		@Override
 		public void onContactDeleted(final List<String> usernameList) {
 			Log.e(TAG,"onContactDeleted.usernameList====="+usernameList);
-			// 被删除
-			Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
 
 
-            ArrayList<String> toDeleteUserNames = new ArrayList<String>();
 
-			for (String username : usernameList) {
+            //ArrayList<String> toDeleteUserNames = new ArrayList<String>();
+
+			for (final String username : usernameList) {
 				Log.e(TAG,"onContactDeleted.username===="+username);
-				localUsers.remove(username);
-
-				//保存好友名字
-                toDeleteUserNames.add(username);
 
 
-				userDao.deleteContact(username);
-				inviteMessgeDao.deleteMessage(username);
-			}
-
-            String currentUserName = SuperWeChatApplication.getInstance().getUserName();
-            for(final String name:toDeleteUserNames){
+                String currentUserName = SuperWeChatApplication.getInstance().getUserName();
                 OkHttpUtils2<Result> utils2 = new OkHttpUtils2<Result>();
                 utils2.setRequestUrl(I.REQUEST_DELETE_CONTACT)
                         .addParam(I.Contact.USER_NAME,currentUserName)
-                        .addParam(I.Contact.CU_NAME,name)
+                        .addParam(I.Contact.CU_NAME,username)
                         .targetClass(Result.class)
                         .execute(new OkHttpUtils2.OnCompleteListener<Result>() {
                             @Override
@@ -624,9 +614,16 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
                                     Map<String, UserAvatar> userAvatarMap = SuperWeChatApplication.getInstance().getContactMap();
                                     List<UserAvatar> userList = SuperWeChatApplication.getInstance().getUserList();
-                                    UserAvatar userAvatar = userAvatarMap.get(name);
+                                    UserAvatar userAvatar = userAvatarMap.get(username);
                                     userList.remove(userAvatar);
-                                    userAvatarMap.remove(name);
+                                    userAvatarMap.remove(username);
+
+                                    // 被删除
+                                    Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
+                                    localUsers.remove(username);
+
+                                    userDao.deleteContact(username);
+                                    inviteMessgeDao.deleteMessage(username);
                                     sendStickyBroadcast(new Intent("update_contact_list"));
                                 }
                             }
@@ -637,8 +634,10 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
                             }
                         });
-            }
 
+				/*//保存好友名字
+                toDeleteUserNames.add(username);*/
+			}
 
 			runOnUiThread(new Runnable() {
 				public void run() {
