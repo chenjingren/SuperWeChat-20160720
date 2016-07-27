@@ -96,7 +96,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		if (username == null || username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAppCurrentUserNick(tvNickName);
-			UserUtils.setAppUserAvatar(this,SuperWeChatApplication.getInstance().getUserName(),headAvatar);
+			UserUtils.setCurrentUserAvatar(this,headAvatar);
 		}
 			/*else if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
 				//tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
@@ -313,11 +313,14 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
         if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO) {
             Log.e(TAG,"要上传头像了");
 
-            uploadAppUserAvatar();
+			dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
+			dialog.show();
+
+            uploadAppUserAvatar(data);
         }
 	}
 
-    private void uploadAppUserAvatar() {
+    private void uploadAppUserAvatar(final Intent data) {
         File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,I.AVATAR_TYPE_USER_PATH),
                 avatarName+I.AVATAR_SUFFIX_JPG);
         String userName = SuperWeChatApplication.getInstance().getUserName();
@@ -332,9 +335,15 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                     public void onSuccess(Result result) {
                         Log.e(TAG,"result===="+result);
                         if (result.isRetMsg()){
-                            Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
+							setPicToView(data);
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
                                     Toast.LENGTH_SHORT).show();
-                        }
+							dialog.dismiss();
+                        }else {
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail),
+									Toast.LENGTH_SHORT).show();
+							dialog.dismiss();
+						}
                     }
 
                     @Override
@@ -342,6 +351,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                         Log.e(TAG,"error===="+error);
                         Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail),
                                 Toast.LENGTH_SHORT).show();
+						dialog.dismiss();
                     }
                 });
     }
@@ -382,7 +392,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void uploadUserAvatar(final byte[] data) {
-		dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
+		//dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
 		new Thread(new Runnable() {
 
 			@Override
@@ -393,6 +403,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					public void run() {
 						dialog.dismiss();
 						if (avatarUrl != null) {
+							Log.e(TAG,"avatarUrl===="+avatarUrl);
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
 									Toast.LENGTH_SHORT).show();
 						} else {
@@ -406,7 +417,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			}
 		}).start();
 
-		dialog.show();
+		//dialog.show();
 	}
 	
 	
