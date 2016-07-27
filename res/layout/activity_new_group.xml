@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eee"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/layout_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -71,6 +72,38 @@
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
         android:textSize="18sp" />
+
+
+    <RelativeLayout
+        android:id="@+id/layoutAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:background="#fff" >
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/group_icon" />
+
+        <EditText
+            android:id="@+id/confirm_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/iv_avatar"
+            android:background="@null"
+            android:hint="头像"
+            android:paddingLeft="10dip"
+            android:singleLine="true"
+            android:textSize="18sp" />
+    </RelativeLayout>
     
     
     <LinearLayout 
@@ -79,6 +112,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_normal_shape"
         >
         <TextView 
