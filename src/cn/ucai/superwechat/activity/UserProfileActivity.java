@@ -335,10 +335,11 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                     public void onSuccess(Result result) {
                         Log.e(TAG,"result===="+result);
                         if (result.isRetMsg()){
+
 							setPicToView(data);
-							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
+							/*Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
                                     Toast.LENGTH_SHORT).show();
-							dialog.dismiss();
+							dialog.dismiss();*/
                         }else {
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail),
 									Toast.LENGTH_SHORT).show();
@@ -392,6 +393,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void uploadUserAvatar(final byte[] data) {
+
 		//dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
 		new Thread(new Runnable() {
 
@@ -402,6 +404,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					@Override
 					public void run() {
 						dialog.dismiss();
+                        Log.e(TAG,"avatarUrl===="+avatarUrl);
 						if (avatarUrl != null) {
 							Log.e(TAG,"avatarUrl===="+avatarUrl);
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
