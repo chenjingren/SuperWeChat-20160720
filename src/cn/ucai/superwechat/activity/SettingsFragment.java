@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.EMCallBack;
+
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
@@ -357,7 +359,16 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 				getActivity().runOnUiThread(new Runnable() {
 					public void run() {
 						pd.dismiss();
-						// 重新显示登陆页面
+						// 重新显示登陆页面  要将前一个登录的用户的信息清除
+
+
+						SuperWeChatApplication.getInstance().setUser(null);
+						//SuperWeChatApplication.getInstance().getGroupList().clear();
+						SuperWeChatApplication.getInstance().getContactMap().clear();
+						SuperWeChatApplication.getInstance().getUserList().clear();
+
+						SuperWeChatApplication.getInstance().getGroupList().clear();
+
 						((MainActivity) getActivity()).finish();
 						startActivity(new Intent(getActivity(), LoginActivity.class));
 						

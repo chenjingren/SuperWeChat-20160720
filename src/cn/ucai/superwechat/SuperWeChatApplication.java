@@ -20,8 +20,11 @@ import com.easemob.EMCallBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import cn.ucai.superwechat.bean.GroupAvatar;
+import cn.ucai.superwechat.bean.MemberUserAvatar;
 import cn.ucai.superwechat.bean.UserAvatar;
 
 public class SuperWeChatApplication extends Application {
@@ -121,6 +124,29 @@ public class SuperWeChatApplication extends Application {
 
 	/**添加全局的当前登录用户的好友Map集合*/
 	private Map<String,UserAvatar> contactMap = new HashMap<String, UserAvatar>();
+
+	/**添加当前登录用户的群组列表*/
+	List<GroupAvatar> groupList = new ArrayList<GroupAvatar>();
+
+	/**所有群组的群组成员信息*/
+
+	Map<String,HashMap<String,MemberUserAvatar>> groupMemebers = new HashMap<>();
+
+	public Map<String, HashMap<String, MemberUserAvatar>> getGroupMemebers() {
+		return groupMemebers;
+	}
+
+	public void setGroupMemebers(Map<String, HashMap<String, MemberUserAvatar>> groupMemebers) {
+		this.groupMemebers = groupMemebers;
+	}
+
+	public List<GroupAvatar> getGroupList() {
+		return groupList;
+	}
+
+	public void setGroupList(List<GroupAvatar> groupList) {
+		this.groupList = groupList;
+	}
 
 	public Map<String, UserAvatar> getContactMap() {
 		return contactMap;

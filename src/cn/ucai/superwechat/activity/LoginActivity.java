@@ -287,7 +287,10 @@ public class LoginActivity extends BaseActivity {
 
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
 
+
+
 		new DownloadGroupListTask(LoginActivity.this,currentUsername).execute();
+
 
 		try {
 			// ** 第一次登录或者之前logout后（退出登录）再登录，加载所有本地群和回话
