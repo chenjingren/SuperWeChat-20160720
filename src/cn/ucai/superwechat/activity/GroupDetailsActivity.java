@@ -17,8 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -48,6 +50,7 @@ import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.bean.GroupAvatar;
 import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.task.DownloadGroupMembersTask;
 import cn.ucai.superwechat.utils.OkHttpUtils2;
 import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.utils.Utils;
@@ -186,6 +189,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		clearAllHistory.setOnClickListener(this);
 		blacklistLayout.setOnClickListener(this);
 		changeGroupNameLayout.setOnClickListener(this);
+
+
+        registerReceiver();
 
 	}
 
@@ -498,7 +504,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
 
-    private void addAppMembersToGroup(String groupId, String[] newmembers) {
+    private void addAppMembersToGroup(final String groupId, String[] newmembers) {
 		String memberArr ="";
 		for (String s:newmembers){
 			memberArr+=s +",";
@@ -526,7 +532,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 									finish();
 								}
 							});
-
+                        new DownloadGroupMembersTask(getApplicationContext(),groupId).execute();
 
 						}else {
 							progressDialog.dismiss();
@@ -934,6 +940,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	protected void onDestroy() {
 		super.onDestroy();
 		instance = null;
+
+        if (MyReceiver!=null){
+            unregisterReceiver(MyReceiver);
+        }
 	}
 	
 	private static class ViewHolder{
@@ -941,5 +951,21 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	    TextView textView;
 	    ImageView badgeDeleteView;
 	}
+
+    class UpdateMembersReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refreshMembers();
+        }
+    }
+
+    UpdateMembersReceiver MyReceiver;
+
+    public void registerReceiver(){
+        MyReceiver = new UpdateMembersReceiver();
+        IntentFilter filter = new IntentFilter("update_members_list");
+        registerReceiver(MyReceiver,filter);
+    }
 
 }
