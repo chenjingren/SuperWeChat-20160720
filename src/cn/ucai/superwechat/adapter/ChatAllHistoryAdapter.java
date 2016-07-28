@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 	private ConversationFilter conversationFilter;
     private boolean notiyfyByFilter;
 
+
 	public ChatAllHistoryAdapter(Context context, int textViewResourceId, List<EMConversation> objects) {
 		super(context, textViewResourceId, objects);
 		this.conversationList = objects;
@@ -100,11 +102,11 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		if (conversation.getType() == EMConversationType.GroupChat) {
 			// 群聊消息，显示群聊头像
 			holder.avatar.setImageResource(R.drawable.group_icon);
+			EMGroup group = EMGroupManager.getInstance().getGroup(username);
+			holder.name.setText(group != null ? group.getGroupName() : username);
 
 			UserUtils.setAppGroupAvatar(getContext(),username,holder.avatar);
 
-			EMGroup group = EMGroupManager.getInstance().getGroup(username);
-			holder.name.setText(group != null ? group.getGroupName() : username);
 		} else if(conversation.getType() == EMConversationType.ChatRoom){
 		    holder.avatar.setImageResource(R.drawable.group_icon);
             EMChatRoom room = EMChatManager.getInstance().getChatRoom(username);
