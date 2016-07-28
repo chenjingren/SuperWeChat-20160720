@@ -117,11 +117,12 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
 			if (convertView == null) {
 				convertView = inflater.inflate(cn.ucai.superwechat.R.layout.row_group, null);
 			}
-			UserUtils.setAppGroupAvatar(mContext,getItem(position-3).getGroupId(),((ImageView)convertView.findViewById(R.id.avatar)));
+
+
 			((TextView) convertView.findViewById(cn.ucai.superwechat.R.id.name)).setText(getItem(position - 3).getGroupName());
-
+			/**设置群聊界面的群组头像显示*/
+			UserUtils.setAppGroupAvatar(mContext,getItem(position-3).getGroupId(),((ImageView)convertView.findViewById(R.id.avatar)));
 		}
-
 		return convertView;
 	}
 

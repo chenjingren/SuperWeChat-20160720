@@ -225,6 +225,19 @@ public class UserUtils {
     }
 
 
+	/*public static void setAppCurrentUserAvatar(Context context, ImageView imageView) {
+		String path = "";
+		String username = SuperWeChatApplication.getInstance().getUserName();
+		path = getAppAvatarPath(username);
+		if(path != null && username != null){
+			Log.e(TAG,"path ==="+path);
+			Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(imageView);
+		}else{
+			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+		}
+	}*/
+
+    /**获取群组头像地址*/
 	public static String getAppGroupAvatarPath(String hxid){
 		StringBuilder path = new StringBuilder();
 		path.append(I.SERVER_ROOT).append(I.QUESTION).
@@ -237,28 +250,15 @@ public class UserUtils {
 	}
 
 
+    /**设置群组头像*/
 	public static void setAppGroupAvatar(Context context, String hxid, ImageView imageView){
 		String path = "";
 		path = getAppGroupAvatarPath(hxid);
 		if(path != null && hxid != null){
 			Log.e(TAG,"path ==="+path);
-			Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(imageView);
+			Picasso.with(context).load(path).placeholder(R.drawable.group_icon).into(imageView);
 		}else{
-			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+			Picasso.with(context).load(R.drawable.group_icon).into(imageView);
 		}
 	}
-
-
-
-	/*public static void setAppCurrentUserAvatar(Context context, ImageView imageView) {
-		String path = "";
-		String username = SuperWeChatApplication.getInstance().getUserName();
-		path = getAppAvatarPath(username);
-		if(path != null && username != null){
-			Log.e(TAG,"path ==="+path);
-			Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(imageView);
-		}else{
-			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
-		}
-	}*/
 }
