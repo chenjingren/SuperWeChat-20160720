@@ -493,18 +493,21 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			}
 		}).start();
 
-		addAppMembersToGroup(groupId,newmembers);
+
+        addAppMembersToGroup(groupId,newmembers);
 	}
 
-	private void addAppMembersToGroup(String groupId, String[] newmembers) {
+
+    private void addAppMembersToGroup(String groupId, String[] newmembers) {
 		String memberArr ="";
 		for (String s:newmembers){
 			memberArr+=s +",";
-			memberArr = memberArr.substring(0,newmembers.length-1);
+			//memberArr = memberArr.substring(0,newmembers.length-2);
 		}
-		OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
-		Log.e(TAG,"memberArr======="+memberArr);
+        memberArr = memberArr.substring(0,memberArr.length()-1);
+        Log.e(TAG,"memberArr======="+memberArr);
 
+		OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
 		utils2.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBER)
 				.addParam(I.Member.GROUP_HX_ID,groupId)
 				.addParam(I.Member.USER_NAME,memberArr)
@@ -523,12 +526,14 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 									finish();
 								}
 							});
+
+
 						}else {
 							progressDialog.dismiss();
 							Toast.makeText(getApplicationContext(),R.string.Add_group_members_fail, Toast.LENGTH_SHORT).show();
 						}
-
 					}
+
 
 					@Override
 					public void onError(String error) {
