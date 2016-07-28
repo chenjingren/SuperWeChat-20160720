@@ -373,6 +373,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	}
 
 	private void setUpView() {
+		registerReceiver();
+
 		iv_emoticons_normal.setOnClickListener(this);
 		iv_emoticons_checked.setOnClickListener(this);
 		// position = getIntent().getIntExtra("position", -1);
@@ -428,7 +430,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		}
 
 
-        registerReceiver();
+        //registerReceiver();
 	}
 
 	protected void onConversationInit(){
@@ -525,12 +527,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             ((TextView) findViewById(R.id.name)).setText(toChatUsername);
         }
 
-
-        new DownloadGroupMembersTask(getApplicationContext(),toChatUsername).execute();
-        
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
+
+
+		new DownloadGroupMembersTask(getApplicationContext(),toChatUsername).execute();
 	}
 	
 	protected void onChatRoomViewCreation(){
@@ -1478,9 +1480,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		    EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
 		}
 
-        if (MyReceiver!=null){
-            unregisterReceiver(MyReceiver);
-        }
+
+
+		if (MyReceiver!=null){
+			unregisterReceiver(MyReceiver);
+		}
 	}
 
 	@Override
@@ -1766,6 +1770,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	}
 
 
+
+
 	class UpdateMembersReceiver extends BroadcastReceiver{
 
 		@Override
@@ -1781,6 +1787,5 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         IntentFilter filter = new IntentFilter("update_members_list");
         registerReceiver(MyReceiver,filter);
 	}
-
 
 }
