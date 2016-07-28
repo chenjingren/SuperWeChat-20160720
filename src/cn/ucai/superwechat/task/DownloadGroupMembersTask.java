@@ -33,6 +33,8 @@ public class DownloadGroupMembersTask {
 
     public void execute(){
         OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
+
+
         utils2.setRequestUrl(I.REQUEST_DOWNLOAD_GROUP_MEMBERS_BY_HXID)
                 .addParam(I.Member.GROUP_HX_ID,hxid)
                 .targetClass(String.class)
@@ -64,5 +66,6 @@ public class DownloadGroupMembersTask {
                         Log.e(TAG,"error========"+error);
                     }
                 });
+
     }
 }
