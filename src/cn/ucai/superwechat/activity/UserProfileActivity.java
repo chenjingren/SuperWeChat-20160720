@@ -83,6 +83,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private void initListener() {
 		Intent intent = getIntent();
 		String username = intent.getStringExtra("username");
+
+		String hxid = intent.getStringExtra("groupId");
+
 		boolean enableUpdate = intent.getBooleanExtra("setting", false);
 		if (enableUpdate) {
 			headPhotoUpdate.setVisibility(View.VISIBLE);
@@ -104,6 +107,12 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				UserUtils.setAppCurrentUserNick(tvNickName);
 				UserUtils.setAppCurrentUserAvatar(this, headAvatar);
 			}*/
+		else if(hxid!=null){
+			tvUsername.setText(username);
+			UserUtils.setAppUserAvatar(this, username, headAvatar);
+			//设置群聊界面里面点击非好友用户头像时，个人资料界面显示非好友的昵称
+			UserUtils.setAppMemberNick(username,hxid,tvNickName);
+		}
 		else {
 			tvUsername.setText(username);
 			UserUtils.setAppUserNick(username, tvNickName);
