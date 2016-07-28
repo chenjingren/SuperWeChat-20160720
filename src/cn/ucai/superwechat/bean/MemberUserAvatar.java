@@ -57,5 +57,23 @@ public class MemberUserAvatar extends UserAvatar implements Serializable{
 		return "MemberUserAvatar [mmemberId=" + mmemberId + ", mmemberGroupId=" + mmemberGroupId + ", mmemberGroupHxid="
 				+ mmemberGroupHxid + ", mmemberPermission=" + mmemberPermission + "]";
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MemberUserAvatar)) return false;
+		if (!super.equals(o)) return false;
+
+		MemberUserAvatar that = (MemberUserAvatar) o;
+
+		return mmemberGroupHxid.equals(that.mmemberGroupHxid);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + mmemberGroupHxid.hashCode();
+		return result;
+	}
 }

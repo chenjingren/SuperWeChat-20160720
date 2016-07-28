@@ -13,6 +13,7 @@
  */
 package cn.ucai.superwechat.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -30,7 +31,13 @@ import android.widget.TextView;
 
 import com.easemob.chat.EMGroup;
 
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.utils.UserUtils;
+
 public class GroupAdapter extends ArrayAdapter<EMGroup> {
+
+	Context mContext;
+
 
 	private LayoutInflater inflater;
 	private String newGroup;
@@ -41,6 +48,7 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
 		this.inflater = LayoutInflater.from(context);
 		newGroup = context.getResources().getString(cn.ucai.superwechat.R.string.The_new_group_chat);
 		addPublicGroup = context.getResources().getString(cn.ucai.superwechat.R.string.add_public_group_chat);
+		this.mContext = context;
 	}
 
 	@Override
@@ -109,6 +117,7 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
 			if (convertView == null) {
 				convertView = inflater.inflate(cn.ucai.superwechat.R.layout.row_group, null);
 			}
+			UserUtils.setAppGroupAvatar(mContext,getItem(position-3).getGroupId(),((ImageView)convertView.findViewById(R.id.avatar)));
 			((TextView) convertView.findViewById(cn.ucai.superwechat.R.id.name)).setText(getItem(position - 3).getGroupName());
 
 		}

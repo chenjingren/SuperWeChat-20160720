@@ -12,9 +12,12 @@ import cn.ucai.superwechat.activity.UserProfileActivity;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.MemberUserAvatar;
 import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.domain.User;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 public class UserUtils {
 
@@ -177,6 +180,37 @@ public class UserUtils {
 	}
 
 
+	public static MemberUserAvatar getAppGroupUserInfo(String hxid, String username){
+
+		//UserAvatar userAvatar = SuperWeChatApplication.getInstance().getContactMap().get(username);
+
+        MemberUserAvatar member =null;
+        HashMap<String, MemberUserAvatar> members =
+                SuperWeChatApplication.getInstance().getGroupMemebers().get(hxid);
+        if (members==null||members.size()<0){
+            return null;
+        }else {
+            member = members.get(username);
+        }
+		return member;
+	}
+
+
+	public static void setAppGroupUserNick(String hxid,String username,TextView textView){
+		MemberUserAvatar member = getAppGroupUserInfo(hxid,username);
+
+		if(member != null){
+			if (member.getMUserNick()!=null){
+				textView.setText(member.getMUserNick());
+			}else {
+				textView.setText(username);
+			}
+		}else {
+			textView.setText(username);
+		}
+	}
+
+
     /**
      * 设置用户的昵称
      */
@@ -189,6 +223,32 @@ public class UserUtils {
             }
         }
     }
+
+
+	public static String getAppGroupAvatarPath(String hxid){
+		StringBuilder path = new StringBuilder();
+		path.append(I.SERVER_ROOT).append(I.QUESTION).
+				append(I.KEY_REQUEST).append(I.EQU).append(I.REQUEST_DOWNLOAD_AVATAR)
+				.append(I.AND)
+				.append(I.NAME_OR_HXID).append(I.EQU).append(hxid)
+				.append(I.AND)
+				.append(I.AVATAR_TYPE).append(I.EQU).append(I.AVATAR_TYPE_GROUP_PATH);
+		return path.toString();
+	}
+
+
+	public static void setAppGroupAvatar(Context context, String hxid, ImageView imageView){
+		String path = "";
+		path = getAppGroupAvatarPath(hxid);
+		if(path != null && hxid != null){
+			Log.e(TAG,"path ==="+path);
+			Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(imageView);
+		}else{
+			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+		}
+	}
+
+
 
 	/*public static void setAppCurrentUserAvatar(Context context, ImageView imageView) {
 		String path = "";

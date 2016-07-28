@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,8 +42,14 @@ import android.widget.Toast;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
+
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.GroupAvatar;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.utils.OkHttpUtils2;
 import cn.ucai.superwechat.utils.UserUtils;
+import cn.ucai.superwechat.utils.Utils;
 import cn.ucai.superwechat.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
@@ -334,7 +341,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 退出群组
 	 * 
-	 * @param groupId
+	 * @param
 	 */
 	private void exitGrop() {
 		String st1 = getResources().getString(R.string.Exit_the_group_chat_failure);
@@ -366,7 +373,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 解散群组
 	 * 
-	 * @param groupId
+	 * @param
 	 */
 	private void deleteGrop() {
 		final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
@@ -393,9 +400,16 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			}
 		}).start();
+
+
+        deleteAppGroup();
 	}
 
-	/**
+    private void deleteAppGroup() {
+
+    }
+
+    /**
 	 * 增加群成员
 	 * 
 	 * @param newmembers
@@ -431,6 +445,51 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			}
 		}).start();
+
+		addAppMembersToGroup(groupId,newmembers);
+	}
+
+	private void addAppMembersToGroup(String groupId, String[] newmembers) {
+		String memberArr ="";
+		for (String s:newmembers){
+			memberArr+=s +",";
+			memberArr = memberArr.substring(0,newmembers.length-1);
+		}
+		OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
+		Log.e(TAG,"memberArr======="+memberArr);
+
+		utils2.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBER)
+				.addParam(I.Member.GROUP_HX_ID,groupId)
+				.addParam(I.Member.USER_NAME,memberArr)
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						Log.e(TAG,"s============="+s);
+						Result result = Utils.getResultFromJson(s, GroupAvatar.class);
+						Log.e(TAG,"result============="+result);
+						if (result!=null&&result.isRetMsg()){
+							runOnUiThread(new Runnable() {
+								public void run() {
+									progressDialog.dismiss();
+									setResult(RESULT_OK);
+									finish();
+								}
+							});
+						}else {
+							progressDialog.dismiss();
+							Toast.makeText(getApplicationContext(),R.string.Add_group_members_fail, Toast.LENGTH_SHORT).show();
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error===="+error);
+						progressDialog.dismiss();
+						Toast.makeText(getApplicationContext(),R.string.Add_group_members_fail+error, Toast.LENGTH_SHORT).show();
+					}
+				});
 	}
 
 	@Override
@@ -629,6 +688,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 //				button.setCompoundDrawables(null, avatar, null, null);
 				holder.textView.setText(username);
 				UserUtils.setUserAvatar(getContext(), username, holder.imageView);
+
+
+
+
+
 				// demo群组成员的头像都用默认头像，需由开发者自己去设置头像
 				if (isInDeleteMode) {
 					// 如果是删除模式下，显示减人图标
@@ -704,6 +768,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 							}
 						}).start();
+
+                        deleteAppGroupMember(group.getGroupId(),username);
 					}
 				});
 
@@ -733,7 +799,26 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		}
 	}
 
-	protected void updateGroup() {
+    private void deleteAppGroupMember(String groupId, String username) {
+        OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
+        utils2.setRequestUrl(I.REQUEST_DELETE_GROUP_MEMBER)
+                .addParam(I.Member.GROUP_HX_ID,groupId)
+                .addParam(I.Member.USER_NAME,username)
+                .targetClass(String.class)
+                .execute(new OkHttpUtils2.OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+    }
+
+    protected void updateGroup() {
 		new Thread(new Runnable() {
 			public void run() {
 				try {

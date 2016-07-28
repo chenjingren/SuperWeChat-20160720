@@ -22,7 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -95,6 +98,7 @@ import cn.ucai.superwechat.adapter.ExpressionPagerAdapter;
 import cn.ucai.superwechat.adapter.MessageAdapter;
 import cn.ucai.superwechat.adapter.VoicePlayClickListener;
 import cn.ucai.superwechat.domain.RobotUser;
+import cn.ucai.superwechat.task.DownloadGroupMembersTask;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.ImageUtils;
 import cn.ucai.superwechat.utils.SmileUtils;
@@ -422,6 +426,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	            forwardMessage(forward_msg_id);
 	        }
 		}
+
+
+        registerReceiver();
 	}
 
 	protected void onConversationInit(){
@@ -517,6 +524,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }else{
             ((TextView) findViewById(R.id.name)).setText(toChatUsername);
         }
+
+
+        new DownloadGroupMembersTask(getApplicationContext(),toChatUsername).execute();
         
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
@@ -1455,12 +1465,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		List<String> reslist = new ArrayList<String>();
 		for (int x = 1; x <= getSum; x++) {
 			String filename = "ee_" + x;
-
 			reslist.add(filename);
-
 		}
 		return reslist;
-
 	}
 
 	@Override
@@ -1470,6 +1477,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		if(groupListener != null){
 		    EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
 		}
+
+        if (MyReceiver!=null){
+            unregisterReceiver(MyReceiver);
+        }
 	}
 
 	@Override
@@ -1753,5 +1764,23 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	public ListView getListView() {
 		return listView;
 	}
+
+
+	class UpdateMembersReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	UpdateMembersReceiver MyReceiver;
+
+	public void registerReceiver(){
+        MyReceiver = new UpdateMembersReceiver();
+        IntentFilter filter = new IntentFilter("update_members_list");
+        registerReceiver(MyReceiver,filter);
+	}
+
 
 }
