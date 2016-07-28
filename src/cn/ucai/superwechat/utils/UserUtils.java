@@ -80,6 +80,9 @@ public class UserUtils {
     }
 
 
+
+
+
     
     /**
 	 * 设置当前用户昵称
@@ -209,6 +212,27 @@ public class UserUtils {
 			textView.setText(username);
 		}
 	}
+
+    public static MemberUserAvatar getAppMemberInfo(String username,String hxid){
+        MemberUserAvatar member = null;
+        HashMap<String, MemberUserAvatar> members =
+                SuperWeChatApplication.getInstance().getGroupMemebers().get(hxid);
+        if (members==null||members.size()<0){
+            return null;
+        }else {
+            member = members.get(username);
+        }
+        return member;
+    }
+
+    public static void setAppMemberNick(String username,String hxid,TextView textView){
+        MemberUserAvatar member = getAppMemberInfo(username, hxid);
+        if (member!=null&&member.getMUserNick()!=null){
+            textView.setText(member.getMUserNick());
+        }else {
+            textView.setText(member.getMUserName());
+        }
+    }
 
 
     /**

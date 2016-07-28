@@ -419,12 +419,9 @@ public class MessageAdapter extends BaseAdapter{
 		// 群聊时，显示接收的消息的发送人的名称
 		if ((chatType == ChatType.GroupChat || chatType == ChatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE){
 		    //demo里使用username代码nick
-			UserUtils.setUserNick(message.getFrom(), holder.tv_usernick);
+			//UserUtils.setUserNick(message.getFrom(), holder.tv_usernick);
 
-
-
-
-
+			UserUtils.setAppMemberNick(message.getFrom(),username,holder.tv_usernick);
 		}
 		if(message.direct == EMMessage.Direct.SEND){
 			UserUtils.setCurrentUserNick(holder.tv_usernick);
@@ -663,7 +660,8 @@ public class MessageAdapter extends BaseAdapter{
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("ResourceType")
 	private void setRobotMenuMessageLayout(LinearLayout parentView,JSONArray jsonArr){
 		try {
 			parentView.removeAllViews();
@@ -996,6 +994,8 @@ public class MessageAdapter extends BaseAdapter{
 	 * @param position
 	 * @param convertView
 	 */
+
+	@SuppressWarnings("ResourceType")
 	private void handleVoiceMessage(final EMMessage message, final ViewHolder holder, final int position, View convertView) {
 		VoiceMessageBody voiceBody = (VoiceMessageBody) message.getBody();
 		int len = voiceBody.getLength();
