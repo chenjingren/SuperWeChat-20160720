@@ -243,7 +243,8 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                         Result result = Utils.getResultFromJson(s, GroupAvatar.class);
                         Log.e(TAG,"result===="+result);
                         if (result!=null&&result.isRetMsg()){
-                            new DownloadGroupMembersTask(context,groupId);
+                            new DownloadGroupMembersTask(context,groupId).execute();
+							//GroupAvatar groupAvatar = (GroupAvatar) result.getRetData();
                         }
                     }
 
