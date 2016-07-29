@@ -881,10 +881,12 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                                     GroupAvatar group = SuperWeChatApplication.getInstance().getGroupMap().get(groupId);
                                     SuperWeChatApplication.getInstance().getGroupList().remove(group);
                                     SuperWeChatApplication.getInstance().getGroupMap().remove(groupId);
+                                    Log.e(TAG,"exit group success");
                                 }else {
                                     SuperWeChatApplication.getInstance().getGroupMemebers().get(groupId).remove(username);
+                                    Log.e(TAG,"delete group member success");
                                 }
-                                Log.e(TAG,"delete member success");
+                                Log.e(TAG,"success success success");
 							}
 						}
 
