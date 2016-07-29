@@ -229,6 +229,7 @@ public class NewGroupActivity extends BaseActivity {
     }
 
     public void createAppGroupSuccess( GroupAvatar groupAvatar){
+        //新建群组成功之后，将群组信息填加到全局变量中
         SuperWeChatApplication.getInstance().getGroupMap().put(groupAvatar.getMGroupHxid(),groupAvatar);
         SuperWeChatApplication.getInstance().getGroupList().add(groupAvatar);
         runOnUiThread(new Runnable() {
