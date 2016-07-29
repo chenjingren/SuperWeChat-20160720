@@ -46,6 +46,9 @@ public class DownloadGroupListTask {
                             if (groupAvatars!=null&&groupAvatars.size()>0){
                                 Log.e(TAG,"groupAvatars.size===="+groupAvatars.size());
                                 SuperWeChatApplication.getInstance().setGroupList(groupAvatars);
+                                for (GroupAvatar g:groupAvatars){
+                                    SuperWeChatApplication.getInstance().getGroupMap().put(g.getMGroupHxid(),g);
+                                }
                                 mContext.sendStickyBroadcast(new Intent("update_group_list"));
                             }
                         }
