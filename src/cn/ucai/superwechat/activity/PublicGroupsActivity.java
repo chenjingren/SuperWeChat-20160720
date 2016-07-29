@@ -136,7 +136,7 @@ public class PublicGroupsActivity extends BaseActivity {
                         public void run() {
                             searchBtn.setVisibility(View.VISIBLE);
                             for (EMGroupInfo g:returnGroups){
-                                if (SuperWeChatApplication.getInstance().getGroupMap().containsKey(g.getGroupId())){
+                                if (!SuperWeChatApplication.getInstance().getGroupMap().containsKey(g.getGroupId())){
                                     groupsList.add(g);
                                 }
                             }
