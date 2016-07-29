@@ -270,7 +270,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						}
 					}).start();
 
-                    changeAppGroupName(returnData);
+                    updateAppGroupName(returnData);
 				}
 				break;
 			case REQUEST_CODE_ADD_TO_BALCKLIST:
@@ -305,7 +305,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		}
 	}
 
-    private void changeAppGroupName(String groupNewName) {
+    private void updateAppGroupName(String groupNewName) {
         GroupAvatar group = SuperWeChatApplication.getInstance().getGroupMap().get(groupId);
         OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
         utils2.setRequestUrl(I.REQUEST_UPDATE_GROUP_NAME)
