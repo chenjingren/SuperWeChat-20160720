@@ -440,8 +440,6 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			}
 		}).start();
 
-
-
         deleteAppGroup();
 	}
 
