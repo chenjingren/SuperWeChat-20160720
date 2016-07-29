@@ -93,7 +93,7 @@ public class SuperWeChatApplication extends Application {
 	/**
 	 * 设置用户名
 	 *
-	 * @param user
+	 * @param username
 	 */
 	public void setUserName(String username) {
 	    hxSDKHelper.setHXId(username);
@@ -128,17 +128,30 @@ public class SuperWeChatApplication extends Application {
 	/**添加当前登录用户的群组列表*/
 	List<GroupAvatar> groupList = new ArrayList<GroupAvatar>();
 
-	/**所有群组的群组成员信息*/
 
-	Map<String,HashMap<String,MemberUserAvatar>> groupMemebers = new HashMap<>();
+
+	Map<String,GroupAvatar> groupMap = new HashMap<>();
+
+	public Map<String, GroupAvatar> getGroupMap() {
+		return groupMap;
+	}
+
+	public void setGroupMap(Map<String, GroupAvatar> groupMap) {
+		this.groupMap = groupMap;
+	}
+
+
+	/**全局的群组成员信息集合*/
+	Map<String,HashMap<String,MemberUserAvatar>> groupMembers = new HashMap<String,HashMap<String,MemberUserAvatar>>();
 
 	public Map<String, HashMap<String, MemberUserAvatar>> getGroupMemebers() {
-		return groupMemebers;
+		return groupMembers;
 	}
 
-	public void setGroupMemebers(Map<String, HashMap<String, MemberUserAvatar>> groupMemebers) {
-		this.groupMemebers = groupMemebers;
+	public void setGroupMembers(Map<String, HashMap<String, MemberUserAvatar>> groupMemebers) {
+		this.groupMembers = groupMemebers;
 	}
+
 
 	public List<GroupAvatar> getGroupList() {
 		return groupList;

@@ -208,17 +208,11 @@ public class NewGroupActivity extends BaseActivity {
                         Result result = Utils.getResultFromJson(s, GroupAvatar.class);
                         Log.e(TAG,"result==="+result);
                         if (result!=null&&result.isRetMsg()){
-                            //GroupAvatar groupAvatar = (GroupAvatar) result.getRetData();
+                            GroupAvatar groupAvatar = (GroupAvatar) result.getRetData();
                             if (members!=null&&members.length>0){
-                                addGroupMembers(groupId,members);
+                                addGroupMembers(groupId,members,groupAvatar);
                             }else {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        progressDialog.dismiss();
-                                        setResult(RESULT_OK);
-                                        finish();
-                                    }
-                                });
+                                createAppGroupSuccess(groupAvatar);
                             }
 
                         }
@@ -234,14 +228,26 @@ public class NewGroupActivity extends BaseActivity {
 
     }
 
-    private void addGroupMembers(String hxid, final String[] members) {
+    public void createAppGroupSuccess( GroupAvatar groupAvatar){
+        SuperWeChatApplication.getInstance().getGroupMap().put(groupAvatar.getMGroupHxid(),groupAvatar);
+        SuperWeChatApplication.getInstance().getGroupList().add(groupAvatar);
+        runOnUiThread(new Runnable() {
+            public void run() {
+                progressDialog.dismiss();
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+    }
+
+    private void addGroupMembers(String hxid, final String[] members, final GroupAvatar groupAvatar) {
         Log.e(TAG,"members======="+members.toString());
         Log.e(TAG,"members=========="+members);
         String memberArr ="";
         for (String s:members){
             memberArr+=s +",";
         }
-        memberArr = memberArr.substring(0,members.length-1);
+        memberArr = memberArr.substring(0,memberArr.length()-1);
         Log.e(TAG,"memberArr======="+memberArr);
 
         OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
@@ -256,13 +262,7 @@ public class NewGroupActivity extends BaseActivity {
                         Result result = Utils.getResultFromJson(s, GroupAvatar.class);
                         Log.e(TAG,"result============="+result);
                         if (result!=null&&result.isRetMsg()){
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    progressDialog.dismiss();
-                                    setResult(RESULT_OK);
-                                    finish();
-                                }
-                            });
+                            createAppGroupSuccess(groupAvatar);
                         }else {
                             progressDialog.dismiss();
                             Toast.makeText(NewGroupActivity.this,R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();

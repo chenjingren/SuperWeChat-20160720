@@ -230,7 +230,7 @@ public class UserUtils {
         if (member!=null&&member.getMUserNick()!=null){
             textView.setText(member.getMUserNick());
         }else {
-            textView.setText(member.getMUserName());
+            textView.setText(username);
         }
     }
 

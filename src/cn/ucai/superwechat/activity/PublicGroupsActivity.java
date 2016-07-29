@@ -29,6 +29,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -39,6 +40,9 @@ import com.easemob.chat.EMCursorResult;
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.utils.UserUtils;
+
 import com.easemob.exceptions.EaseMobException;
 
 public class PublicGroupsActivity extends BaseActivity {
@@ -56,6 +60,7 @@ public class PublicGroupsActivity extends BaseActivity {
     private ProgressBar footLoadingPB;
     private TextView footLoadingText;
     private Button searchBtn;
+
     
 
 	@Override
@@ -130,7 +135,12 @@ public class PublicGroupsActivity extends BaseActivity {
 
                         public void run() {
                             searchBtn.setVisibility(View.VISIBLE);
-                            groupsList.addAll(returnGroups);
+                            for (EMGroupInfo g:returnGroups){
+                                if (SuperWeChatApplication.getInstance().getGroupMap().containsKey(g.getGroupId())){
+                                    groupsList.add(g);
+                                }
+                            }
+
                             if(returnGroups.size() != 0){
                                 //获取cursor
                                 cursor = result.getCursor();
@@ -177,8 +187,11 @@ public class PublicGroupsActivity extends BaseActivity {
 
 		private LayoutInflater inflater;
 
+        Context mContext;
+
 		public GroupsAdapter(Context context, int res, List<EMGroupInfo> groups) {
 			super(context, res, groups);
+            this.mContext = context;
 			this.inflater = LayoutInflater.from(context);
 		}
 
@@ -189,6 +202,8 @@ public class PublicGroupsActivity extends BaseActivity {
 			}
 
 			((TextView) convertView.findViewById(R.id.name)).setText(getItem(position).getGroupName());
+            UserUtils.setAppGroupAvatar(mContext,getItem(position).getGroupId(),((ImageView) convertView.findViewById(R.id.avatar)));
+
 
 			return convertView;
 		}
