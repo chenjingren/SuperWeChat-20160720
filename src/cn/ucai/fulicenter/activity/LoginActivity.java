@@ -51,7 +51,7 @@ import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
-import cn.ucai.fulicenter.task.DownloadGroupListTask;
+//import cn.ucai.fulicenter.task.DownloadGroupListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.UserUtils;
@@ -289,7 +289,7 @@ public class LoginActivity extends BaseActivity {
 
 
 
-		new DownloadGroupListTask(LoginActivity.this,currentUsername).execute();
+		//new DownloadGroupListTask(LoginActivity.this,currentUsername).execute();
 
 
 		try {

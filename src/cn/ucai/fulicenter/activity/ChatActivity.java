@@ -100,7 +100,7 @@ import cn.ucai.fulicenter.adapter.ExpressionPagerAdapter;
 import cn.ucai.fulicenter.adapter.MessageAdapter;
 import cn.ucai.fulicenter.adapter.VoicePlayClickListener;
 import cn.ucai.fulicenter.domain.RobotUser;
-import cn.ucai.fulicenter.task.DownloadGroupMembersTask;
+//import cn.ucai.fulicenter.task.DownloadGroupMembersTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.utils.SmileUtils;
@@ -534,7 +534,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
 
 
-		new DownloadGroupMembersTask(getApplicationContext(),toChatUsername).execute();
+		//new DownloadGroupMembersTask(getApplicationContext(),toChatUsername).execute();
 	}
 	
 	protected void onChatRoomViewCreation(){
@@ -1260,11 +1260,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			return;
 		}
 		if(chatType == CHATTYPE_GROUP){
-			startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
-					REQUEST_CODE_GROUP_DETAIL);
+			/*startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
+					REQUEST_CODE_GROUP_DETAIL);*/
 		}else{
-			startActivityForResult((new Intent(this, ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername)),
-					REQUEST_CODE_GROUP_DETAIL);
+			/*startActivityForResult((new Intent(this, ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername)),
+					REQUEST_CODE_GROUP_DETAIL);*/
 		}
 	}
 
@@ -1736,8 +1736,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
 						Toast.makeText(ChatActivity.this, st13, Toast.LENGTH_LONG).show();
-						if (GroupDetailsActivity.instance != null)
-							GroupDetailsActivity.instance.finish();
+						/*if (GroupDetailsActivity.instance != null)
+							GroupDetailsActivity.instance.finish();*/
 						finish();
 					}
 				}
@@ -1753,8 +1753,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
 						Toast.makeText(ChatActivity.this, st14, Toast.LENGTH_LONG).show();
-						if (GroupDetailsActivity.instance != null)
-							GroupDetailsActivity.instance.finish();
+						/*if (GroupDetailsActivity.instance != null)
+							GroupDetailsActivity.instance.finish();*/
 						finish();
 					}
 				}

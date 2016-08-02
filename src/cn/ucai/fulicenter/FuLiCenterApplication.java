@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.ucai.fulicenter.bean.GroupAvatar;
+//import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.UserAvatar;
 
@@ -127,8 +127,8 @@ public class FuLiCenterApplication extends Application {
 	/**添加全局的当前登录用户的好友Map集合*/
 	private Map<String,UserAvatar> contactMap = new HashMap<String, UserAvatar>();
 
-	/**添加当前登录用户的群组列表*/
-	List<GroupAvatar> groupList = new ArrayList<GroupAvatar>();
+	/**添加当前登录用户的群组列表*//*
+	List<GroupAvatar> groupList = new ArrayList<GroupAvatar>();*/
 
 
 	/**全局的群组成员信息集合*/
@@ -142,10 +142,10 @@ public class FuLiCenterApplication extends Application {
 		this.groupMembers = groupMemebers;
 	}
 
-	/**添加当前登录用户的群组集合*/
-	Map<String,GroupAvatar> groupMap = new HashMap<String, GroupAvatar>();
+	/**添加当前登录用户的群组集合*//*
+	Map<String,GroupAvatar> groupMap = new HashMap<String, GroupAvatar>();*/
 
-	public Map<String, GroupAvatar> getGroupMap() {
+	/*public Map<String, GroupAvatar> getGroupMap() {
 		return groupMap;
 	}
 
@@ -160,7 +160,7 @@ public class FuLiCenterApplication extends Application {
 
 	public void setGroupList(List<GroupAvatar> groupList) {
 		this.groupList = groupList;
-	}
+	}*/
 
 	public Map<String, UserAvatar> getContactMap() {
 		return contactMap;

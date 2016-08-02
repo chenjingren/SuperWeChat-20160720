@@ -36,13 +36,13 @@ import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.bean.GroupAvatar;
+//import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
 import cn.ucai.fulicenter.domain.InviteMessage;
 import cn.ucai.fulicenter.domain.InviteMessage.InviteMesageStatus;
-import cn.ucai.fulicenter.task.DownloadGroupMembersTask;
+//import cn.ucai.fulicenter.task.DownloadGroupMembersTask;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
@@ -196,7 +196,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 						EMChatManager.getInstance().acceptInvitation(msg.getFrom());
 					} else { //同意加群申请
 						EMGroupManager.getInstance().acceptApplication(msg.getFrom(), msg.getGroupId());
-						addAppGroupMember(msg.getFrom(),msg.getGroupId());
+						//addAppGroupMember(msg.getFrom(),msg.getGroupId());
 					}
 					((Activity) context).runOnUiThread(new Runnable() {
 
@@ -228,7 +228,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		}).start();
 	}
 
-	private void addAppGroupMember(String username, final String groupId) {
+	/*private void addAppGroupMember(String username, final String groupId) {
 		OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
         utils2.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBER)
                 .addParam(I.Member.USER_NAME,username)
@@ -238,12 +238,12 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                     @Override
                     public void onSuccess(String s) {
                         Log.e(TAG,"sss====="+s);
-                        Result result = Utils.getResultFromJson(s, GroupAvatar.class);
-                        Log.e(TAG,"result===="+result);
+                        //Result result = Utils.getResultFromJson(s, GroupAvatar.class);
+                        *//*Log.e(TAG,"result===="+result);
                         if (result!=null&&result.isRetMsg()){
                             new DownloadGroupMembersTask(context,groupId).execute();
 							//GroupAvatar groupAvatar = (GroupAvatar) result.getRetData();
-                        }
+                        }*//*
                     }
 
                     @Override
@@ -251,7 +251,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                         Log.e(TAG,  "error===="+error);
                     }
                 });
-	}
+	}*/
 
 	private static class ViewHolder {
 		ImageView avator;
