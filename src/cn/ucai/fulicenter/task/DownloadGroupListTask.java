@@ -31,7 +31,7 @@ public class DownloadGroupListTask {
 
     public void execute(){
         OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
-        utils2.setRequestUrl(I.REQUEST_FIND_GROUP_BY_USER_NAME)
+        utils2.setRequestUrl(I.REQUEST_FIND_GROUP)
                 .addParam(I.User.USER_NAME,username)
                 .targetClass(String.class)
                 .execute(new OkHttpUtils2.OnCompleteListener<String>() {
