@@ -6,8 +6,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
@@ -98,7 +98,7 @@ public class UserUtils {
 	 */
 	public static void setAppCurrentUserNick(TextView textView){
 		//User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
-		UserAvatar user = SuperWeChatApplication.getInstance().getUser();
+		UserAvatar user = FuLiCenterApplication.getInstance().getUser();
 		Log.e(TAG,"setAppCurrentUserNick.user==="+user);
 		if(textView != null &&user!=null){
 			if (user.getMUserNick()!=null) {
@@ -157,7 +157,7 @@ public class UserUtils {
 	 */
 	public static UserAvatar getAppUserInfo(String username){
 
-		UserAvatar userAvatar = SuperWeChatApplication.getInstance().getContactMap().get(username);
+		UserAvatar userAvatar = FuLiCenterApplication.getInstance().getContactMap().get(username);
 		if(userAvatar == null){
 			userAvatar = new UserAvatar(username);
 		}
@@ -184,11 +184,11 @@ public class UserUtils {
 
 	public static MemberUserAvatar getAppGroupUserInfo(String hxid, String username){
 
-		//UserAvatar userAvatar = SuperWeChatApplication.getInstance().getContactMap().get(username);
+		//UserAvatar userAvatar = FuLiCenterApplication.getInstance().getContactMap().get(username);
 
         MemberUserAvatar member =null;
         HashMap<String, MemberUserAvatar> members =
-                SuperWeChatApplication.getInstance().getGroupMemebers().get(hxid);
+                FuLiCenterApplication.getInstance().getGroupMemebers().get(hxid);
         if (members==null||members.size()<0){
             return null;
         }else {
@@ -215,7 +215,7 @@ public class UserUtils {
     public static MemberUserAvatar getAppMemberInfo(String username,String hxid){
         MemberUserAvatar member = null;
         HashMap<String, MemberUserAvatar> members =
-                SuperWeChatApplication.getInstance().getGroupMemebers().get(hxid);
+                FuLiCenterApplication.getInstance().getGroupMemebers().get(hxid);
         if (members==null||members.size()<0){
             return null;
         }else {
@@ -250,7 +250,7 @@ public class UserUtils {
 
 	/*public static void setAppCurrentUserAvatar(Context context, ImageView imageView) {
 		String path = "";
-		String username = SuperWeChatApplication.getInstance().getUserName();
+		String username = FuLiCenterApplication.getInstance().getUserName();
 		path = getAppAvatarPath(username);
 		if(path != null && username != null){
 			Log.e(TAG,"path ==="+path);

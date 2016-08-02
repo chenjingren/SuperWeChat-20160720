@@ -30,9 +30,9 @@ import android.widget.Toast;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.listener.OnSetAvatarListener;
@@ -186,7 +186,7 @@ public class NewGroupActivity extends BaseActivity {
                                 ,avatarName+I.AVATAR_SUFFIX_JPG);
         boolean isPublic = checkBox.isChecked();
         boolean invites = !isPublic;
-        String own = SuperWeChatApplication.getInstance().getUserName();
+        String own = FuLiCenterApplication.getInstance().getUserName();
 
         OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
         utils2.setRequestUrl(I.REQUEST_CREATE_GROUP)
@@ -227,8 +227,8 @@ public class NewGroupActivity extends BaseActivity {
 
     public void createAppGroupSuccess( GroupAvatar groupAvatar){
         //新建群组成功之后，将群组信息填加到全局变量中
-        SuperWeChatApplication.getInstance().getGroupMap().put(groupAvatar.getMGroupHxid(),groupAvatar);
-        SuperWeChatApplication.getInstance().getGroupList().add(groupAvatar);
+        FuLiCenterApplication.getInstance().getGroupMap().put(groupAvatar.getMGroupHxid(),groupAvatar);
+        FuLiCenterApplication.getInstance().getGroupList().add(groupAvatar);
         runOnUiThread(new Runnable() {
             public void run() {
                 progressDialog.dismiss();

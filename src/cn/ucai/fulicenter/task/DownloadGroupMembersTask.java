@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -47,7 +47,7 @@ public class DownloadGroupMembersTask {
                         Log.e(TAG,"list.size===="+list.size());
                         if (list!=null&&list.size()>0){
                             Map<String, HashMap<String, MemberUserAvatar>> groupMembers =
-                                    SuperWeChatApplication.getInstance().getGroupMemebers();
+                                    FuLiCenterApplication.getInstance().getGroupMemebers();
                             if (!groupMembers.containsKey(hxid)){
                                 groupMembers.put(hxid,new HashMap<String, MemberUserAvatar>());
                             }

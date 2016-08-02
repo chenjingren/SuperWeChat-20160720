@@ -27,10 +27,12 @@ import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.UserAvatar;
 
-public class SuperWeChatApplication extends Application {
+public class FuLiCenterApplication extends Application {
+
+	public static String SERVER_ROOT = "http://10.0.2.2:8080/SuperWeChatServer/Server";
 
 	public static Context applicationContext;
-	private static SuperWeChatApplication instance;
+	private static FuLiCenterApplication instance;
 	// login user name
 	public final String PREF_USERNAME = "username";
 	
@@ -67,7 +69,7 @@ public class SuperWeChatApplication extends Application {
         hxSDKHelper.onInit(applicationContext);
 	}
 
-	public static SuperWeChatApplication getInstance() {
+	public static FuLiCenterApplication getInstance() {
 		return instance;
 	}
  

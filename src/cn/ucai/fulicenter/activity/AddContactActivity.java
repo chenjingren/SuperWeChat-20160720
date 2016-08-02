@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 
@@ -35,7 +36,6 @@ import com.easemob.chat.EMContactManager;
 
 import java.util.ArrayList;
 
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
@@ -96,13 +96,13 @@ public class AddContactActivity extends BaseActivity{
 				return;
 			}
 
-			if(SuperWeChatApplication.getInstance().getUserName().equals(toAddUsername)){
+			if(FuLiCenterApplication.getInstance().getUserName().equals(toAddUsername)){
 				String str = getString(R.string.not_add_myself);
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 				return;
 			}
 
-			UserAvatar userAvatar = SuperWeChatApplication.getInstance().getContactMap().get(toAddUsername);
+			UserAvatar userAvatar = FuLiCenterApplication.getInstance().getContactMap().get(toAddUsername);
 			if (userAvatar!=null){
 				startActivity(new Intent(AddContactActivity.this,UserProfileActivity.class)
 						.putExtra("username",toAddUsername));
@@ -204,7 +204,7 @@ public class AddContactActivity extends BaseActivity{
 
 		OkHttpUtils2<String> utils2 = new OkHttpUtils2<>();
 		utils2.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
-				.addParam(I.Contact.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
+				.addParam(I.Contact.USER_NAME, FuLiCenterApplication.getInstance().getUserName())
 				.targetClass(String.class)
 				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
 					@Override

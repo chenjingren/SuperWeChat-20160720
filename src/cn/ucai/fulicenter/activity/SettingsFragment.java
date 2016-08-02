@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
@@ -362,14 +362,14 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 						// 重新显示登陆页面  要将前一个登录的用户的信息清除
 
 
-						SuperWeChatApplication.getInstance().setUser(null);
-						//SuperWeChatApplication.getInstance().getGroupList().clear();
-						SuperWeChatApplication.getInstance().getContactMap().clear();
-						SuperWeChatApplication.getInstance().getUserList().clear();
+						FuLiCenterApplication.getInstance().setUser(null);
+						//FuLiCenterApplication.getInstance().getGroupList().clear();
+						FuLiCenterApplication.getInstance().getContactMap().clear();
+						FuLiCenterApplication.getInstance().getUserList().clear();
 
-						SuperWeChatApplication.getInstance().getGroupList().clear();
-						SuperWeChatApplication.getInstance().getGroupMap().clear();
-                        SuperWeChatApplication.getInstance().getGroupMemebers().clear();
+						FuLiCenterApplication.getInstance().getGroupList().clear();
+						FuLiCenterApplication.getInstance().getGroupMap().clear();
+                        FuLiCenterApplication.getInstance().getGroupMemebers().clear();
 
 						((MainActivity) getActivity()).finish();
 						startActivity(new Intent(getActivity(), LoginActivity.class));

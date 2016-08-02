@@ -14,9 +14,9 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.db.UserDao;
@@ -65,8 +65,8 @@ public class SplashActivity extends BaseActivity {
 					EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
 					//从全局变量中获取当前登录用户的账号
-					String userName = SuperWeChatApplication.getInstance().getUserName();
-					//UserAvatar user = SuperWeChatApplication.getInstance().getUser();
+					String userName = FuLiCenterApplication.getInstance().getUserName();
+					//UserAvatar user = FuLiCenterApplication.getInstance().getUser();
 					Log.e(TAG,"userName========="+userName);
 					//Log.e(TAG,"user=============="+user);
 					//根据用户账号获取用户的所有信息
@@ -90,8 +90,8 @@ public class SplashActivity extends BaseActivity {
 											if (userAvatar1!=null){
 												Log.e(TAG,"userAvatar1============"+userAvatar1);
 												//保存用户信息到全局变量中
-												SuperWeChatApplication.getInstance().setUser(userAvatar1);
-												SuperWeChatApplication.currentUserNick = userAvatar1.getMUserNick();
+												FuLiCenterApplication.getInstance().setUser(userAvatar1);
+												FuLiCenterApplication.currentUserNick = userAvatar1.getMUserNick();
 											}
 										}
 									}
@@ -104,8 +104,8 @@ public class SplashActivity extends BaseActivity {
 					}else {
                         Log.e(TAG,"USERAVATAR!=NULL");
 						//保存用户信息到全局变量中
-						SuperWeChatApplication.getInstance().setUser(userAvatar);
-						SuperWeChatApplication.currentUserNick = userAvatar.getMUserNick();
+						FuLiCenterApplication.getInstance().setUser(userAvatar);
+						FuLiCenterApplication.currentUserNick = userAvatar.getMUserNick();
 					}
 
 					//下载用户的好友列表
