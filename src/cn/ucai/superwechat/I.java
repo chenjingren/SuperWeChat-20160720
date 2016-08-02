@@ -21,6 +21,7 @@ public interface I {
 		String USER_NAME 							= 		"m_contact_user_name";			//用户账号
 		String CU_NAME 								= 		"m_contact_cname";				//好友账号
 	}
+
 	
 	interface Group {
 		String TABLE_NAME 							= 		"t_superwechat_group";
