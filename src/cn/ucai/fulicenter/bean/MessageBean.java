@@ -1,5 +1,8 @@
 package cn.ucai.fulicenter.bean;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by Administrator on 2016/8/2 0002.
  */
@@ -11,15 +14,17 @@ public class MessageBean {
      * msg : 添加收藏成功
      */
 
-    private boolean success;
+    @JsonProperty("isSuccess")
+    private boolean isSuccess;
     private String msg;
 
+    @JsonIgnore
     public boolean isSuccess() {
-        return success;
+        return isSuccess;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setSuccess(boolean isSuccess) {
+        this.isSuccess = isSuccess;
     }
 
     public String getMsg() {
@@ -33,7 +38,7 @@ public class MessageBean {
     @Override
     public String toString() {
         return "MessageBean{" +
-                "success=" + success +
+                "isSuccess=" + isSuccess +
                 ", msg='" + msg + '\'' +
                 '}';
     }
