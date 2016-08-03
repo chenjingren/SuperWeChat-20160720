@@ -1,12 +1,14 @@
 package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.fragment.NewGoodFragment;
 
 public class FuLiCenterMainActivity extends BaseActivity {
     public static final String TAG = FuLiCenterMainActivity.class.getName();
@@ -24,12 +26,18 @@ public class FuLiCenterMainActivity extends BaseActivity {
     int index;
     int currentIndex;
 
+    Fragment[] fragments;
+
+    NewGoodFragment newGoodFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fu_li_center_main);
         initView();
+        initFragment();
     }
+
 
     private void initView() {
         rbNewGoods = (RadioButton) findViewById(R.id.rb_new_good);
@@ -46,6 +54,18 @@ public class FuLiCenterMainActivity extends BaseActivity {
         mrbTabs[2] = rbCategory;
         mrbTabs[3] = rbCart;
         mrbTabs[4] = rbPersonalCenter;
+    }
+
+    private void initFragment() {
+        fragments = new Fragment[5];
+        newGoodFragment = new NewGoodFragment();
+        fragments[0] = newGoodFragment;
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container,newGoodFragment)
+                //.add(R.id.fragment_container,boutiqueFragment).hide(boutiqueFragment)
+                .show(newGoodFragment)
+                .commit();
     }
 
     public void onCheckedChange(View view) {
