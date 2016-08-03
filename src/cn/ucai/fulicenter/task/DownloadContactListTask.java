@@ -36,18 +36,20 @@ public class DownloadContactListTask {
                 .execute(new OkHttpUtils2.OnCompleteListener<String>() {
                     @Override
                     public void onSuccess(String s) {
-                        Log.e(TAG,"s===="+s);
+                        Log.e(TAG, "s====" + s);
                         Result result = Utils.getListResultFromJson(s, UserAvatar.class);
-                        Log.e(TAG,"result===="+result);
-                        ArrayList<UserAvatar> userList = (ArrayList<UserAvatar>) result.getRetData();
-                        if (userList!=null&&userList.size()>0){
-                            Log.e(TAG,"userList.size()==="+userList.size());
-                            FuLiCenterApplication.getInstance().setUserList(userList);
-                            mContext.sendStickyBroadcast(new Intent("update_contact_list"));
+                        Log.e(TAG, "result====" + result);
+                        if (result != null) {
+                            ArrayList<UserAvatar> userList = (ArrayList<UserAvatar>) result.getRetData();
+                            if (userList != null && userList.size() > 0) {
+                                Log.e(TAG, "userList.size()===" + userList.size());
+                                FuLiCenterApplication.getInstance().setUserList(userList);
+                                mContext.sendStickyBroadcast(new Intent("update_contact_list"));
 
-                            Map<String,UserAvatar> userAvatar = FuLiCenterApplication.getInstance().getContactMap();
-                            for (UserAvatar user:userList){
-                                userAvatar.put(user.getMUserName(),user);
+                                Map<String, UserAvatar> userAvatar = FuLiCenterApplication.getInstance().getContactMap();
+                                for (UserAvatar user : userList) {
+                                    userAvatar.put(user.getMUserName(), user);
+                                }
                             }
                         }
                     }
