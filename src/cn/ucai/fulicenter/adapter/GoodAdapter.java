@@ -54,6 +54,14 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return newGoodsList.size();
     }
 
+    public void initData(ArrayList<NewGoodsBean> goods) {
+        if (newGoodsList!=null){
+            newGoodsList.clear();
+        }
+        newGoodsList.addAll(goods);
+        notifyDataSetChanged();
+    }
+
     class GoodViewHolder extends RecyclerView.ViewHolder{
         LinearLayout layout;
         ImageView ivThumb;
