@@ -109,7 +109,7 @@ public class SplashActivity extends BaseActivity {
 					}
 
 					//下载用户的好友列表
-					new DownloadContactListTask(SplashActivity.this,userName).execute();
+					//new DownloadContactListTask(SplashActivity.this,userName).execute();
 
 					//new DownloadGroupListTask(SplashActivity.this,userName).execute();
 
