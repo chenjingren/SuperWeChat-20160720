@@ -51,7 +51,7 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return 0;
+        return newGoodsList.size();
     }
 
     class GoodViewHolder extends RecyclerView.ViewHolder{
