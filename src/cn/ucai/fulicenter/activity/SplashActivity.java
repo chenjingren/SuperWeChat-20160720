@@ -109,7 +109,7 @@ public class SplashActivity extends BaseActivity {
 					}
 
 					//下载用户的好友列表
-					//new DownloadContactListTask(SplashActivity.this,userName).execute();
+					new DownloadContactListTask(SplashActivity.this,userName).execute();
 
 					//new DownloadGroupListTask(SplashActivity.this,userName).execute();
 
@@ -123,14 +123,14 @@ public class SplashActivity extends BaseActivity {
 						}
 					}
 					//进入主页面
-					startActivity(new Intent(SplashActivity.this, MainActivity.class));
+					startActivity(new Intent(SplashActivity.this, FuLiCenterMainActivity.class));
 					finish();
 				}else {
 					try {
 						Thread.sleep(sleepTime);
 					} catch (InterruptedException e) {
 					}
-					startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+					startActivity(new Intent(SplashActivity.this, FuLiCenterMainActivity.class));
 					finish();
 				}
 			}
