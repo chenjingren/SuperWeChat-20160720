@@ -5,6 +5,7 @@
     >
 
     <!-- TODO: Update blank fragment layout -->
+    <include layout="@layout/common_refresh"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_new_good"
