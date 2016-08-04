@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -37,6 +39,7 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.mContext = mContext;
         this.newGoodsList = new ArrayList<NewGoodsBean>();
         newGoodsList.addAll(newGoodsList);
+        sortByAddTime();
     }
 
     public boolean isMore() {
@@ -104,11 +107,14 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             newGoodsList.clear();
         }
         newGoodsList.addAll(goods);
+
+        sortByAddTime();
         notifyDataSetChanged();
     }
 
     public void addData(ArrayList<NewGoodsBean> goods) {
         newGoodsList.addAll(goods);
+        sortByAddTime();
         notifyDataSetChanged();
     }
 
@@ -125,5 +131,14 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             tvGoodsName = (TextView) itemView.findViewById(R.id.tv_goods_name);
             tvGoodsPrice = (TextView) itemView.findViewById(R.id.tv_goods_price);
         }
+    }
+
+    public void sortByAddTime(){
+        Collections.sort(newGoodsList, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean lhs, NewGoodsBean rhs) {
+                return (int)(Long.valueOf(rhs.getAddTime())-Long.valueOf(lhs.getAddTime()));
+            }
+        });
     }
 }
