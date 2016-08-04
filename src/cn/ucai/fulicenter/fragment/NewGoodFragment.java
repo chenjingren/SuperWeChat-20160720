@@ -41,7 +41,7 @@ public class NewGoodFragment extends Fragment {
 
     ArrayList<NewGoodsBean> goodList;
 
-    int pageId =1;
+    int pageId =0;
 
     TextView tvRefreshHint;
 
@@ -122,6 +122,36 @@ public class NewGoodFragment extends Fragment {
 
     private void setListener() {
         setPullDownRefreshListener();
+        setPullUpRefreshListener();
+    }
+
+    private void setPullUpRefreshListener() {
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            int lastItemPosition;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int a = RecyclerView.SCROLL_STATE_DRAGGING; //1
+                int b = RecyclerView.SCROLL_STATE_IDLE; //0
+                int c = RecyclerView.SCROLL_STATE_SETTLING; //2
+                Log.e(TAG,"STATE===="+newState);
+                if (newState==RecyclerView.SCROLL_STATE_IDLE && lastItemPosition==mAdapter.getItemCount()-1){
+                    pageId +=I.PAGE_SIZE_DEFAULT;
+                    initData();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int f = mGridLayoutManager.findFirstVisibleItemPosition();
+                int l = mGridLayoutManager.findLastVisibleItemPosition();
+                Log.e(TAG,"f==="+f+",l===="+l);
+                lastItemPosition = mGridLayoutManager.findLastVisibleItemPosition();
+            }
+        });
     }
 
     private void setPullDownRefreshListener() {
@@ -129,7 +159,7 @@ public class NewGoodFragment extends Fragment {
             @Override
             public void onRefresh() {
                 tvRefreshHint.setVisibility(View.VISIBLE);
-                pageId =1;
+                pageId =0;
                 initData();
             }
         });
