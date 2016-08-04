@@ -26,10 +26,20 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     GoodViewHolder mGoodViewHolder;
 
+    boolean isMore;
+
     public GoodAdapter(Context mContext, ArrayList<NewGoodsBean> newGoodsList) {
         this.mContext = mContext;
         this.newGoodsList = new ArrayList<NewGoodsBean>();
         newGoodsList.addAll(newGoodsList);
+    }
+
+    public boolean isMore() {
+        return isMore;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
     }
 
     @Override

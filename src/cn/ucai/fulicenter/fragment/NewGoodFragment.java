@@ -92,11 +92,15 @@ public class NewGoodFragment extends Fragment {
                             public void onSuccess(NewGoodsBean[] result) {
                                 tvRefreshHint.setVisibility(View.GONE);
                                 mSwipeRefreshLayout.setRefreshing(false);
+                                mAdapter.setMore(true);
                                 Log.e(TAG,"result===="+result);
                                 if (result!=null){
                                     Log.e(TAG,"result.length====="+result.length);
                                     ArrayList<NewGoodsBean> goods = Utils.array2List(result);
                                     mAdapter.initData(goods);
+                                    if (goods.size()<I.PAGE_SIZE_DEFAULT){
+                                        mAdapter.setMore(false);
+                                    }
                                 }
                             }
 
@@ -137,9 +141,12 @@ public class NewGoodFragment extends Fragment {
                 int b = RecyclerView.SCROLL_STATE_IDLE; //0
                 int c = RecyclerView.SCROLL_STATE_SETTLING; //2
                 Log.e(TAG,"STATE===="+newState);
-                if (newState==RecyclerView.SCROLL_STATE_IDLE && lastItemPosition==mAdapter.getItemCount()-1){
-                    pageId +=I.PAGE_SIZE_DEFAULT;
-                    initData();
+                if (newState==RecyclerView.SCROLL_STATE_IDLE
+                        && lastItemPosition==mAdapter.getItemCount()-1){
+                    if (mAdapter.isMore()){
+                        pageId +=I.PAGE_SIZE_DEFAULT;
+                        initData();
+                    }
                 }
             }
 
