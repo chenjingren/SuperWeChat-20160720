@@ -5,7 +5,7 @@
     >
 
     <!-- TODO: Update blank fragment layout -->
-    <include layout="@layout/common_refresh"/>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_new_good"
@@ -16,6 +16,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
+            <include layout="@layout/common_refresh" />
+            
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_new_good"
                 android:layout_width="match_parent"
