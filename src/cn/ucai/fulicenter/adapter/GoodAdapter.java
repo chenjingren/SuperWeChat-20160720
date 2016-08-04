@@ -49,6 +49,7 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void setTvFooter(String tvFooter) {
         this.tvFooter = tvFooter;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -102,6 +103,11 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if (newGoodsList!=null){
             newGoodsList.clear();
         }
+        newGoodsList.addAll(goods);
+        notifyDataSetChanged();
+    }
+
+    public void addData(ArrayList<NewGoodsBean> goods) {
         newGoodsList.addAll(goods);
         notifyDataSetChanged();
     }

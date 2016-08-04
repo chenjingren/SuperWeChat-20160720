@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -44,6 +45,8 @@ public class NewGoodFragment extends Fragment {
     int pageId =0;
 
     TextView tvRefreshHint;
+
+    int action = I.ACTION_DOWNLOAD;
 
     public NewGoodFragment() {
         // Required empty public constructor
@@ -98,12 +101,20 @@ public class NewGoodFragment extends Fragment {
                                 if (result!=null){
                                     Log.e(TAG,"result.length====="+result.length);
                                     ArrayList<NewGoodsBean> goods = Utils.array2List(result);
-                                    mAdapter.initData(goods);
+                                    if (action==I.ACTION_DOWNLOAD || action==I.ACTION_PULL_DOWN){
+                                        mAdapter.initData(goods);
+                                    }else {
+                                        mAdapter.addData(goods);
+                                    }
                                     if (goods.size()<I.PAGE_SIZE_DEFAULT){
                                         mAdapter.setMore(false);
                                         mAdapter.setTvFooter(getResources().getString(R.string.no_more));
                                     }
+                                }else {
+                                    mAdapter.setMore(false);
+                                    mAdapter.setTvFooter(getResources().getString(R.string.no_more));
                                 }
+
                             }
 
                             @Override
@@ -143,9 +154,11 @@ public class NewGoodFragment extends Fragment {
                 int b = RecyclerView.SCROLL_STATE_IDLE; //0
                 int c = RecyclerView.SCROLL_STATE_SETTLING; //2
                 Log.e(TAG,"STATE===="+newState);
+
                 if (newState==RecyclerView.SCROLL_STATE_IDLE
                         && lastItemPosition==mAdapter.getItemCount()-1){
                     if (mAdapter.isMore()){
+                        action=I.ACTION_PULL_UP;
                         pageId +=I.PAGE_SIZE_DEFAULT;
                         initData();
                     }
@@ -167,6 +180,7 @@ public class NewGoodFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                action = I.ACTION_PULL_DOWN;
                 tvRefreshHint.setVisibility(View.VISIBLE);
                 pageId =0;
                 initData();
