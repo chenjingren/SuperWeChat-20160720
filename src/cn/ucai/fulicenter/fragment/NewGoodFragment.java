@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,8 @@ public class NewGoodFragment extends Fragment {
 
     int pageId =1;
 
+    TextView tvRefreshHint;
+
     public NewGoodFragment() {
         // Required empty public constructor
     }
@@ -55,8 +58,10 @@ public class NewGoodFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_new_good, container, false);
         initView(layout);
         initData();
+        setListener();
         return layout;
     }
+
 
     private void initView(View layout) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.srl_new_good);
@@ -77,12 +82,16 @@ public class NewGoodFragment extends Fragment {
         mAdapter = new GoodAdapter(mContext,goodList);
 
         mRecyclerView.setAdapter(mAdapter);
+
+        tvRefreshHint = (TextView) layout.findViewById(R.id.tv_refresh);
     }
 
     private void initData() {
         findNewGoodBean(new OkHttpUtils2.OnCompleteListener<NewGoodsBean[]>() {
                             @Override
                             public void onSuccess(NewGoodsBean[] result) {
+                                tvRefreshHint.setVisibility(View.GONE);
+                                mSwipeRefreshLayout.setRefreshing(false);
                                 Log.e(TAG,"result===="+result);
                                 if (result!=null){
                                     Log.e(TAG,"result.length====="+result.length);
@@ -94,6 +103,8 @@ public class NewGoodFragment extends Fragment {
                             @Override
                             public void onError(String error) {
                                 Log.e(TAG,"error===="+error);
+                                tvRefreshHint.setVisibility(View.GONE);
+                                mSwipeRefreshLayout.setRefreshing(false);
                             }
                         }
         );
@@ -107,5 +118,20 @@ public class NewGoodFragment extends Fragment {
                 .addParam(I.PAGE_SIZE,I.PAGE_SIZE_DEFAULT+"")
                 .targetClass(NewGoodsBean[].class)
                 .execute(listener);
+    }
+
+    private void setListener() {
+        setPullDownRefreshListener();
+    }
+
+    private void setPullDownRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                tvRefreshHint.setVisibility(View.VISIBLE);
+                pageId =1;
+                initData();
+            }
+        });
     }
 }
