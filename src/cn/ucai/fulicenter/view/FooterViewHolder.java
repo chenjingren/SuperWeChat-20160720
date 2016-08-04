@@ -10,7 +10,7 @@ import cn.ucai.fulicenter.R;
  * Created by Administrator on 2016/8/5 0005.
  */
 public class FooterViewHolder extends RecyclerView.ViewHolder{
-    TextView tvFooter;
+    public TextView tvFooter;
 
     public FooterViewHolder(View itemView) {
         super(itemView);

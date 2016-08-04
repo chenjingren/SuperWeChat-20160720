@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
+import cn.ucai.fulicenter.view.FooterViewHolder;
 
 /**
  * Created by Administrator on 2016/8/3 0003.
@@ -25,8 +27,11 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     ArrayList<NewGoodsBean> newGoodsList;
 
     GoodViewHolder mGoodViewHolder;
+    FooterViewHolder mFooterViewHolder;
 
     boolean isMore;
+
+    String tvFooter;
 
     public GoodAdapter(Context mContext, ArrayList<NewGoodsBean> newGoodsList) {
         this.mContext = mContext;
@@ -42,11 +47,24 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         isMore = more;
     }
 
+    public void setTvFooter(String tvFooter) {
+        this.tvFooter = tvFooter;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder holder =null;
-        View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_new_good, null, false);
-        holder = new GoodViewHolder(inflate);
+        switch (viewType){
+            case I.TYPE_FOOTER:
+                holder = new FooterViewHolder(LayoutInflater.from(mContext).
+                        inflate(R.layout.item_footer,null,false));
+                break;
+
+            case I.TYPE_ITEM:
+                holder = new GoodViewHolder(LayoutInflater.from(mContext).
+                        inflate(R.layout.item_new_good, null, false));
+                break;
+        }
         return holder;
     }
 
@@ -60,11 +78,24 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
             ImageUtils.setNewGoodThumb(mContext,mGoodViewHolder.ivThumb,goods.getGoodsThumb());
         }
+        if (holder instanceof FooterViewHolder){
+            mFooterViewHolder = (FooterViewHolder) holder;
+            mFooterViewHolder.tvFooter.setText(tvFooter);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return newGoodsList.size();
+        return newGoodsList!=null?newGoodsList.size()+1:1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position==getItemCount()-1){
+            return I.TYPE_FOOTER;
+        }else {
+            return I.TYPE_ITEM;
+        }
     }
 
     public void initData(ArrayList<NewGoodsBean> goods) {

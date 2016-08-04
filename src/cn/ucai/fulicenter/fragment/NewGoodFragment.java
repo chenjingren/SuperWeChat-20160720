@@ -93,6 +93,7 @@ public class NewGoodFragment extends Fragment {
                                 tvRefreshHint.setVisibility(View.GONE);
                                 mSwipeRefreshLayout.setRefreshing(false);
                                 mAdapter.setMore(true);
+                                mAdapter.setTvFooter(getResources().getString(R.string.load_more));
                                 Log.e(TAG,"result===="+result);
                                 if (result!=null){
                                     Log.e(TAG,"result.length====="+result.length);
@@ -100,6 +101,7 @@ public class NewGoodFragment extends Fragment {
                                     mAdapter.initData(goods);
                                     if (goods.size()<I.PAGE_SIZE_DEFAULT){
                                         mAdapter.setMore(false);
+                                        mAdapter.setTvFooter(getResources().getString(R.string.no_more));
                                     }
                                 }
                             }
