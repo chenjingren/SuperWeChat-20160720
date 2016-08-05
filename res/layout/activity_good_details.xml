@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/list_background"
+    android:background="@color/good_detail_bg"
     tools:context="cn.ucai.fulicenter.activity.GoodDetailsActivity">
     <RelativeLayout
-        android:id="@+id/rl_title"
+        android:id="@+id/layout_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:background="@color/main_orange">
         <include layout="@layout/common_head_title"/>
 
         <ImageView
@@ -53,42 +53,48 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_good_details"
+        android:id="@+id/layout_good_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:background="@color/white">
+        android:padding="20dp"
+        android:layout_below="@id/layout_title">
         <TextView
             android:id="@+id/tv_goods_english_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monbento"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:paddingTop="40dp"
-            android:paddingLeft="35dp"/>
+            android:text="tv_goods_english_name"
+            android:layout_margin="5dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_goods_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="女士大衣 军绿色"
-            android:textSize="16sp"
-            android:paddingTop="5dp"
+            android:text="tv_goods_name"
+            android:layout_margin="5dp"
             android:textColor="@color/black"
-            android:paddingLeft="35dp"
             android:layout_below="@id/tv_goods_english_name"/>
 
         <TextView
-            android:id="@+id/tv_goods_price"
+            android:id="@+id/tv_goods_price_current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$ 293"
-            android:textSize="16sp"
-            android:paddingTop="65dp"
+            android:text="tv_goods_price_current"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
             android:textColor="@color/black"
-            android:paddingLeft="70dp"
-            android:layout_toRightOf="@id/tv_goods_name"/>
+            />
+
+        <TextView
+            android:id="@+id/tv_goods_price_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tv_goods_price_shop"
+            android:textColor="@color/black"
+            android:layout_margin="5dp"
+            android:layout_below="@id/tv_goods_price_current"
+            android:layout_alignParentRight="true"
+            />
 
     </RelativeLayout>
 
@@ -96,22 +102,25 @@
         android:id="@+id/salv"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="180dp"
+        android:layout_below="@id/layout_good_details">
 
     </cn.ucai.fulicenter.view.SlideAutoLoopView>
 
     <cn.ucai.fulicenter.view.FlowIndicator
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/salv"/>
 
     <WebView
         android:id="@+id/wv_brief"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/indicator">
 
     </WebView>
 
 
 
-</LinearLayout>
+</RelativeLayout>
