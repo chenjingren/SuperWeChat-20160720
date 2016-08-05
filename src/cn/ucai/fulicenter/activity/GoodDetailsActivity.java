@@ -1,12 +1,15 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -26,12 +29,16 @@ public class GoodDetailsActivity extends Activity {
 
     WebView wvGoodBrief;
 
+    int goodId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_good_details);
         initView();
+        initData();
     }
+
 
     private void initView() {
         ivShare = (ImageView) findViewById(R.id.iv_share);
@@ -52,5 +59,12 @@ public class GoodDetailsActivity extends Activity {
                 wvGoodBrief.getSettings();
         settings.setBuiltInZoomControls(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+    }
+
+
+    private void initData() {
+        goodId = getIntent().getIntExtra(D.GoodDetails.KEY_GOODS_ID, 0);
+        Log.e(TAG,"goodId===="+goodId);
+
     }
 }
