@@ -28,13 +28,28 @@
             android:layout_toLeftOf="@id/iv_share"
             android:layout_marginRight="12dp"/>
 
-        <ImageView
-            android:id="@+id/iv_cart"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:src="@drawable/bg_cart_selected"
-            android:layout_toLeftOf="@id/iv_collect"
-            android:layout_marginRight="12dp"/>
+        <RelativeLayout
+            android:id="@+id/layout_cart"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/iv_collect">
+
+            <ImageView
+                android:id="@+id/iv_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:src="@drawable/bg_cart_selected"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+
     </RelativeLayout>
 
     <RelativeLayout
