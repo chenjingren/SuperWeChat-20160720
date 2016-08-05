@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -14,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.GoodDetailsActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.view.FooterViewHolder;
@@ -76,11 +79,19 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof GoodViewHolder){
             mGoodViewHolder = (GoodViewHolder) holder;
-            NewGoodsBean goods = newGoodsList.get(position);
+            final NewGoodsBean goods = newGoodsList.get(position);
             mGoodViewHolder.tvGoodsName.setText(goods.getGoodsName());
             mGoodViewHolder.tvGoodsPrice.setText(goods.getCurrencyPrice());
 
             ImageUtils.setNewGoodThumb(mContext,mGoodViewHolder.ivThumb,goods.getGoodsThumb());
+
+            mGoodViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, GoodDetailsActivity.class)
+                        .putExtra(D.GoodDetails.KEY_GOODS_ID,goods.getGoodsId()));
+                }
+            });
         }
         if (holder instanceof FooterViewHolder){
             mFooterViewHolder = (FooterViewHolder) holder;
