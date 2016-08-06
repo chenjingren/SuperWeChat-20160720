@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_boutique_thumb"
+        android:layout_width="210dp"
+        android:layout_height="200dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_boutique_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_boutique_thumb"
+        android:paddingTop="30dp"
+        android:paddingLeft="20dp"
+        android:text="不一样的新装1"/>
+
+    <TextView
+        android:id="@+id/tv_boutique_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_boutique_thumb"
+        android:layout_below="@id/tv_boutique_name"
+        android:paddingTop="25dp"
+        android:paddingLeft="20dp"
+        android:text="不一样的新装2"/>
+
+    <TextView
+        android:id="@+id/tv_boutique_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_boutique_thumb"
+        android:layout_below="@id/tv_boutique_title"
+        android:paddingTop="28dp"
+        android:paddingLeft="20dp"
+        android:text="不一样的新装3"/>
+
+</RelativeLayout>
