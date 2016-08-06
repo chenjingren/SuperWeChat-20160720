@@ -7,14 +7,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.AlbumsBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
-import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -79,6 +76,7 @@ public class GoodDetailsActivity extends Activity {
                 if (goodDetails!=null){
 
                     mGoodDetails = goodDetails;
+
                     showGoodDetails();
 
                     //wvGoodBrief.setTag(goodDetails.getGoodsBrief());
@@ -129,9 +127,9 @@ public class GoodDetailsActivity extends Activity {
             }
         }*/
 
-        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
+        if (mGoodDetails.getPropertyBean()!=null && mGoodDetails.getPropertyBean().length>0){
 
-                albumLength =mGoodDetails.getPropertiesBean()[0].getAlbumsBean().length;
+                albumLength =mGoodDetails.getPropertyBean()[0].getAlbumsBean().length;
                 Log.e(TAG,"albumLength======"+albumLength);
 
         }
@@ -153,8 +151,8 @@ public class GoodDetailsActivity extends Activity {
             }
         }*/
 
-        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
-                AlbumsBean[] albumsBean = mGoodDetails.getPropertiesBean()[0].getAlbumsBean();
+        if (mGoodDetails.getPropertyBean()!=null && mGoodDetails.getPropertyBean().length>0){
+                AlbumsBean[] albumsBean = mGoodDetails.getPropertyBean()[0].getAlbumsBean();
                 int albumLength = albumsBean.length;
                 imgUrls = new String[albumLength];
                 for(int j=0;j<albumLength;j++){

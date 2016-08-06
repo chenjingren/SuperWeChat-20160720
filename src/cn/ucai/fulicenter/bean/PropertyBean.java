@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * Created by Administrator on 2016/8/2 0002.
  */
-public class PropertiesBean implements Serializable {
+public class PropertyBean implements Serializable {
 
     /**
      * id : 9529
@@ -94,7 +94,7 @@ public class PropertiesBean implements Serializable {
 
     @Override
     public String toString() {
-        return "PropertiesBean{" +
+        return "PropertyBean{" +
                 "id=" + id +
                 ", goodsId=" + goodsId +
                 ", colorId=" + colorId +
