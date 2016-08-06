@@ -2,12 +2,14 @@ package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.fragment.NewGoodFragment;
 
 public class FuLiCenterMainActivity extends BaseActivity {
@@ -29,6 +31,8 @@ public class FuLiCenterMainActivity extends BaseActivity {
     Fragment[] fragments;
 
     NewGoodFragment newGoodFragment;
+
+    BoutiqueFragment boutiqueFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +63,13 @@ public class FuLiCenterMainActivity extends BaseActivity {
     private void initFragment() {
         fragments = new Fragment[5];
         newGoodFragment = new NewGoodFragment();
+        boutiqueFragment = new BoutiqueFragment();
         fragments[0] = newGoodFragment;
+        fragments[1] = boutiqueFragment;
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container,newGoodFragment)
-                //.add(R.id.fragment_container,boutiqueFragment).hide(boutiqueFragment)
+                .add(R.id.fragment_container,boutiqueFragment).hide(boutiqueFragment)
                 .show(newGoodFragment)
                 .commit();
     }
@@ -91,6 +97,7 @@ public class FuLiCenterMainActivity extends BaseActivity {
             setRadioButtonStatus(index);
             currentIndex=index;
         }
+
     }
 
     public void setRadioButtonStatus(int index) {
