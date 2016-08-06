@@ -35,6 +35,8 @@ public class GoodDetailsActivity extends Activity {
 
     int goodId;
 
+    GoodDetailsBean mGoodDetails = new GoodDetailsBean();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,9 @@ public class GoodDetailsActivity extends Activity {
             public void onSuccess(GoodDetailsBean goodDetails) {
                 Log.e(TAG,"goodDetails===="+goodDetails);
                 if (goodDetails!=null){
-                    showGoodDetails(goodDetails);
+
+                    mGoodDetails = goodDetails;
+                    showGoodDetails();
 
                     //wvGoodBrief.setTag(goodDetails.getGoodsBrief());
 
@@ -104,11 +108,42 @@ public class GoodDetailsActivity extends Activity {
 
     }
 
-    private void showGoodDetails(GoodDetailsBean goodDetails) {
-        tvGoodEnglishName.setText(goodDetails.getGoodsEnglishName());
-        tvGoodName.setText(goodDetails.getGoodsName());
-        tvShopPrice.setText(goodDetails.getShopPrice());
-        tvCurrentPrice.setText(goodDetails.getCurrencyPrice());
+    private void showGoodDetails() {
+        tvGoodEnglishName.setText(mGoodDetails.getGoodsEnglishName());
+        tvGoodName.setText(mGoodDetails.getGoodsName());
+        tvShopPrice.setText(mGoodDetails.getShopPrice());
+        tvCurrentPrice.setText(mGoodDetails.getCurrencyPrice());
+
+        salv.startPlayLoop(indicator,getAlbumImgUrl(),getAlbumImgLength());
+    }
+
+    private int getAlbumImgLength() {
+        int albumLength = 0;
+        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
+            for (int i=0;i<mGoodDetails.getPropertiesBean().length;i++){
+                 albumLength =mGoodDetails.getPropertiesBean()[i].getAlbumsBean().length;
+                Log.e(TAG,"albumLength======"+albumLength);
+            }
+        }
+        return albumLength;
+    }
+
+    private String[] getAlbumImgUrl() {
+        String[] imgUrls = null;
+        String imgUrl;
+
+        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
+            for (int i=0;i<mGoodDetails.getPropertiesBean().length;i++){
+                int albumLength = mGoodDetails.getPropertiesBean()[i].getAlbumsBean().length;
+                imgUrls = new String[albumLength];
+               for(int j=0;j<albumLength;j++){
+                   imgUrl = mGoodDetails.getPropertiesBean()[i].getAlbumsBean()[j].getImgUrl();
+                   imgUrls[j] =imgUrl;
+                   Log.e(TAG,"imgUrl[j]=========="+imgUrls[j]);
+               }
+            }
+        }
+        return imgUrls;
     }
 
     private void findGoodDetailsRequest(int goodId,OkHttpUtils2.OnCompleteListener<GoodDetailsBean> listener) {
