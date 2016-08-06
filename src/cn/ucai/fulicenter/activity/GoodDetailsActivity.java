@@ -1,18 +1,19 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
+import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -78,6 +79,22 @@ public class GoodDetailsActivity extends Activity {
                     tvShopPrice.setText(goodDetails.getShopPrice());
                     tvCurrentPrice.setText(goodDetails.getCurrencyPrice());
                     //wvGoodBrief.setTag(goodDetails.getGoodsBrief());
+
+                    downloadGoodDetailsImg(goodDetails, new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            Log.e(TAG,"result===="+result);
+                            if (result!=null){
+                                Toast.makeText(GoodDetailsActivity.this, "下载相册成功", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Log.e(TAG,"error===="+error);
+                            Toast.makeText(GoodDetailsActivity.this, "下载相册失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
@@ -94,6 +111,13 @@ public class GoodDetailsActivity extends Activity {
         utils2.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
                 .addParam(D.GoodDetails.KEY_GOODS_ID,String.valueOf(goodId))
                 .targetClass(GoodDetailsBean.class)
+                .execute(listener);
+    }
+
+    private void downloadGoodDetailsImg(GoodDetailsBean goodDetails,OkHttpUtils2.OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils2<MessageBean> utils = new OkHttpUtils2<>();
+        utils.setRequestUrl(I.DOWNLOAD_ALBUM_IMG_URL+goodDetails.getGoodsImg())
+                .targetClass(MessageBean.class)
                 .execute(listener);
     }
 }
