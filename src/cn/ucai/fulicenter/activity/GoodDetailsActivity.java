@@ -12,6 +12,7 @@ import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.AlbumsBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
+import cn.ucai.fulicenter.utils.DisplayUtils;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -19,6 +20,8 @@ import cn.ucai.fulicenter.view.SlideAutoLoopView;
 public class GoodDetailsActivity extends Activity {
 
     public static final String TAG = GoodDetailsActivity.class.getName();
+
+    Activity context;
 
     ImageView ivShare,ivCollect,ivCart;
     TextView tvCartCount;
@@ -45,6 +48,9 @@ public class GoodDetailsActivity extends Activity {
 
 
     private void initView() {
+
+        context = this;
+
         ivShare = (ImageView) findViewById(R.id.iv_share);
         ivCollect = (ImageView) findViewById(R.id.iv_collect);
         ivCart = (ImageView) findViewById(R.id.iv_cart);
@@ -63,6 +69,8 @@ public class GoodDetailsActivity extends Activity {
                 wvGoodBrief.getSettings();
         settings.setBuiltInZoomControls(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
+        DisplayUtils.initBack(context);
     }
 
 
