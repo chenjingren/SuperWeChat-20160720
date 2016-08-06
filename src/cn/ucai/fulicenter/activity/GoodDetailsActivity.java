@@ -12,6 +12,7 @@ import android.widget.Toast;
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.AlbumsBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -115,33 +116,51 @@ public class GoodDetailsActivity extends Activity {
         tvCurrentPrice.setText(mGoodDetails.getCurrencyPrice());
 
         salv.startPlayLoop(indicator,getAlbumImgUrl(),getAlbumImgLength());
+
+        wvGoodBrief.loadDataWithBaseURL(null,mGoodDetails.getGoodsBrief(),D.TEXT_HTML,D.UTF_8,null);
     }
 
     private int getAlbumImgLength() {
         int albumLength = 0;
-        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
+        /*if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
             for (int i=0;i<mGoodDetails.getPropertiesBean().length;i++){
                  albumLength =mGoodDetails.getPropertiesBean()[i].getAlbumsBean().length;
                 Log.e(TAG,"albumLength======"+albumLength);
             }
+        }*/
+
+        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
+
+                albumLength =mGoodDetails.getPropertiesBean()[0].getAlbumsBean().length;
+                Log.e(TAG,"albumLength======"+albumLength);
+
         }
         return albumLength;
     }
 
     private String[] getAlbumImgUrl() {
-        String[] imgUrls = null;
-        String imgUrl;
+        String[] imgUrls = new String[]{};
 
-        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
+        /*if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
             for (int i=0;i<mGoodDetails.getPropertiesBean().length;i++){
-                int albumLength = mGoodDetails.getPropertiesBean()[i].getAlbumsBean().length;
+                AlbumsBean[] albumsBean = mGoodDetails.getPropertiesBean()[i].getAlbumsBean();
+                int albumLength = albumsBean.length;
                 imgUrls = new String[albumLength];
                for(int j=0;j<albumLength;j++){
-                   imgUrl = mGoodDetails.getPropertiesBean()[i].getAlbumsBean()[j].getImgUrl();
-                   imgUrls[j] =imgUrl;
+                   imgUrls[j] = albumsBean[j].getImgUrl();
                    Log.e(TAG,"imgUrl[j]=========="+imgUrls[j]);
                }
             }
+        }*/
+
+        if (mGoodDetails.getPropertiesBean()!=null && mGoodDetails.getPropertiesBean().length>0){
+                AlbumsBean[] albumsBean = mGoodDetails.getPropertiesBean()[0].getAlbumsBean();
+                int albumLength = albumsBean.length;
+                imgUrls = new String[albumLength];
+                for(int j=0;j<albumLength;j++){
+                    imgUrls[j] = albumsBean[j].getImgUrl();
+                    Log.e(TAG,"imgUrl[j]=========="+imgUrls[j]);
+                }
         }
         return imgUrls;
     }
