@@ -74,13 +74,11 @@ public class GoodDetailsActivity extends Activity {
             public void onSuccess(GoodDetailsBean goodDetails) {
                 Log.e(TAG,"goodDetails===="+goodDetails);
                 if (goodDetails!=null){
-                    tvGoodEnglishName.setText(goodDetails.getGoodsEnglishName());
-                    tvGoodName.setText(goodDetails.getGoodsName());
-                    tvShopPrice.setText(goodDetails.getShopPrice());
-                    tvCurrentPrice.setText(goodDetails.getCurrencyPrice());
+                    showGoodDetails(goodDetails);
+
                     //wvGoodBrief.setTag(goodDetails.getGoodsBrief());
 
-                    downloadGoodDetailsImg(goodDetails, new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                    /*downloadGoodDetailsImg(goodDetails, new OkHttpUtils2.OnCompleteListener<MessageBean>() {
                         @Override
                         public void onSuccess(MessageBean result) {
                             Log.e(TAG,"result===="+result);
@@ -94,7 +92,7 @@ public class GoodDetailsActivity extends Activity {
                             Log.e(TAG,"error===="+error);
                             Toast.makeText(GoodDetailsActivity.this, "下载相册失败", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    });*/
                 }
             }
 
@@ -106,6 +104,13 @@ public class GoodDetailsActivity extends Activity {
 
     }
 
+    private void showGoodDetails(GoodDetailsBean goodDetails) {
+        tvGoodEnglishName.setText(goodDetails.getGoodsEnglishName());
+        tvGoodName.setText(goodDetails.getGoodsName());
+        tvShopPrice.setText(goodDetails.getShopPrice());
+        tvCurrentPrice.setText(goodDetails.getCurrencyPrice());
+    }
+
     private void findGoodDetailsRequest(int goodId,OkHttpUtils2.OnCompleteListener<GoodDetailsBean> listener) {
         OkHttpUtils2<GoodDetailsBean> utils2 = new OkHttpUtils2<GoodDetailsBean>();
         utils2.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
@@ -114,10 +119,10 @@ public class GoodDetailsActivity extends Activity {
                 .execute(listener);
     }
 
-    private void downloadGoodDetailsImg(GoodDetailsBean goodDetails,OkHttpUtils2.OnCompleteListener<MessageBean> listener) {
+    /*private void downloadGoodDetailsImg(GoodDetailsBean goodDetails,OkHttpUtils2.OnCompleteListener<MessageBean> listener) {
         OkHttpUtils2<MessageBean> utils = new OkHttpUtils2<>();
         utils.setRequestUrl(I.DOWNLOAD_ALBUM_IMG_URL+goodDetails.getGoodsImg())
                 .targetClass(MessageBean.class)
                 .execute(listener);
-    }
+    }*/
 }
