@@ -10,7 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.GoodDetailsBean;
+import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
 
@@ -65,6 +68,32 @@ public class GoodDetailsActivity extends Activity {
     private void initData() {
         goodId = getIntent().getIntExtra(D.GoodDetails.KEY_GOODS_ID, 0);
         Log.e(TAG,"goodId===="+goodId);
+        findGoodDetailsRequest(goodId, new OkHttpUtils2.OnCompleteListener<GoodDetailsBean>() {
+            @Override
+            public void onSuccess(GoodDetailsBean goodDetails) {
+                Log.e(TAG,"goodDetails===="+goodDetails);
+                if (goodDetails!=null){
+                    tvGoodEnglishName.setText(goodDetails.getGoodsEnglishName());
+                    tvGoodName.setText(goodDetails.getGoodsName());
+                    tvShopPrice.setText(goodDetails.getShopPrice());
+                    tvCurrentPrice.setText(goodDetails.getCurrencyPrice());
+                    //wvGoodBrief.setTag(goodDetails.getGoodsBrief());
+                }
+            }
 
+            @Override
+            public void onError(String error) {
+                Log.e(TAG,"error===="+error);
+            }
+        });
+
+    }
+
+    private void findGoodDetailsRequest(int goodId,OkHttpUtils2.OnCompleteListener<GoodDetailsBean> listener) {
+        OkHttpUtils2<GoodDetailsBean> utils2 = new OkHttpUtils2<GoodDetailsBean>();
+        utils2.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
+                .addParam(D.GoodDetails.KEY_GOODS_ID,String.valueOf(goodId))
+                .targetClass(GoodDetailsBean.class)
+                .execute(listener);
     }
 }
