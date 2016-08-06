@@ -98,6 +98,15 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public void initData(ArrayList<BoutiqueBean> boutiques) {
+        if (boutiqueList!=null){
+            boutiqueList.clear();
+        }
+        boutiqueList.addAll(boutiques);
+        notifyDataSetChanged();
+    }
+
+
     class BoutiqueViewHolder extends RecyclerView.ViewHolder{
 
         RelativeLayout mLayout;
