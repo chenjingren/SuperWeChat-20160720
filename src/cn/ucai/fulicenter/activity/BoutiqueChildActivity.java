@@ -18,6 +18,7 @@ import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodAdapter;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.utils.DisplayUtils;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
 
@@ -25,7 +26,7 @@ public class BoutiqueChildActivity extends Activity {
 
     public static final String TAG = BoutiqueChildActivity.class.getName();
 
-    Context mContext;
+    Activity mContext;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -80,6 +81,8 @@ public class BoutiqueChildActivity extends Activity {
 
         mtvRefreshHint = (TextView) findViewById(R.id.tv_refresh);
 
+        String name = getIntent().getStringExtra(D.Boutique.KEY_NAME);
+        DisplayUtils.initBackWithTitle(mContext,name);
     }
 
     private void initData() {
