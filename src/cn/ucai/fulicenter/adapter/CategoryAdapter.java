@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -80,14 +81,25 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         if (convertView==null){
             convertView = View.inflate(mContext, R.layout.item_category_group,parent);
             holder = new GroupViewHolder();
-            CategoryGroupBean group = getGroup(groupPosition);
-            ImageUtils.setCategoryGroupThumb(mContext,holder.ivGroupThumb,group.getImageUrl());
-            holder.tvGroupName.setText(group.getName());
-            holder.ivIndicator.setImageResource(R.drawable.expand_off);
+
+            holder.ivGroupThumb = (ImageView) convertView.findViewById(R.id.iv_group_thumb);
+            holder.tvGroupName = (TextView) convertView.findViewById(R.id.tv_group_name);
+            holder.ivIndicator = (ImageView) convertView.findViewById(R.id.iv_indicator);
+
             convertView.setTag(holder);
         }else {
             holder = (GroupViewHolder) convertView.getTag();
         }
+
+        CategoryGroupBean group = getGroup(groupPosition);
+        ImageUtils.setCategoryGroupThumb(mContext,holder.ivGroupThumb,group.getImageUrl());
+        holder.tvGroupName.setText(group.getName());
+        if (isExpanded){
+            holder.ivIndicator.setImageResource(R.drawable.expand_off);
+        }else {
+            holder.ivIndicator.setImageResource(R.drawable.expand_on);
+        }
+
         return convertView;
     }
 
@@ -97,17 +109,25 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         if (convertView==null){
             convertView = View.inflate(mContext,R.layout.item_category_child,parent);
             holder = new ChildViewHolder();
-            convertView.setTag(holder);
-            CategoryChildBean child = getChild(groupPosition, childPosition);
-            if (child!=null){
-                ImageUtils.setCategoryChildThumb(mContext,holder.ivChildThumb,child.getImageUrl());
-                holder.tvChildName.setText(child.getName());
 
-            }
+            holder.tvChildName = (TextView) convertView.findViewById(R.id.tv_child_name);
+            holder.ivChildThumb = (ImageView) convertView.findViewById(R.id.iv_child_thumb);
+            holder.layoutCategoryChild = (RelativeLayout) convertView.findViewById(R.id.layout_category_child);
+
+            convertView.setTag(holder);
+            
         }else {
             holder = (ChildViewHolder) convertView.getTag();
         }
-        return null;
+
+        CategoryChildBean child = getChild(groupPosition, childPosition);
+        if (child!=null){
+            ImageUtils.setCategoryChildThumb(mContext,holder.ivChildThumb,child.getImageUrl());
+            holder.tvChildName.setText(child.getName());
+
+        }
+
+        return convertView;
     }
 
     @Override
@@ -122,7 +142,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     }
 
     class ChildViewHolder{
-        RecyclerView layoutCategoryChlid;
+        RelativeLayout layoutCategoryChild;
         ImageView ivChildThumb;
         TextView tvChildName;
     }
