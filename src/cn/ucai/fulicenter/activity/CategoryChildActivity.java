@@ -18,10 +18,12 @@ import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodAdapter;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.DisplayUtils;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
+import cn.ucai.fulicenter.view.CatChildFilterButton;
 
 public class CategoryChildActivity extends Activity {
 
@@ -53,6 +55,11 @@ public class CategoryChildActivity extends Activity {
     boolean mSortAddTimeAsc;
 
     int sortBy;
+
+    CatChildFilterButton mCatChidFilterButton;
+    String name;
+
+    ArrayList<CategoryChildBean> childList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,12 @@ public class CategoryChildActivity extends Activity {
         mbtnAddTime = (Button) findViewById(R.id.btn_time);
 
         sortBy = I.SORT_BY_ADDTIME_DESC;
+
+        mCatChidFilterButton = (CatChildFilterButton) findViewById(R.id.btnCatChildFilter);
+        name=getIntent().getStringExtra(I.CategoryGroup.NAME);
+        mCatChidFilterButton.setText(name);
+
+        childList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra("childList");
     }
 
     private void initData() {
@@ -139,7 +152,7 @@ public class CategoryChildActivity extends Activity {
     }
 
     public void findNewGoodBean(OkHttpUtils2.OnCompleteListener<NewGoodsBean[]> listener){
-        cat_id = getIntent().getIntExtra(I.NewAndBoutiqueGood.CAT_ID,0);
+        cat_id = getIntent().getIntExtra(I.CategoryChild.CAT_ID,0);
         Log.e(TAG,"catId========"+cat_id);
         if (cat_id<0) finish();
         OkHttpUtils2<NewGoodsBean[]> utils2 = new OkHttpUtils2<NewGoodsBean[]>();
@@ -158,6 +171,8 @@ public class CategoryChildActivity extends Activity {
         SortStatusChangedListener listener = new SortStatusChangedListener();
         mbtnPrice.setOnClickListener(listener);
         mbtnAddTime.setOnClickListener(listener);
+
+        mCatChidFilterButton.setOnCatFilterClickListener(name,childList);
     }
 
     private void setPullUpRefreshListener() {
