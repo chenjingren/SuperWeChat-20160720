@@ -80,8 +80,8 @@ public class CategoryChildActivity extends Activity {
 
         mtvRefreshHint = (TextView) findViewById(R.id.tv_refresh);
 
-        String name = getIntent().getStringExtra(D.Boutique.KEY_NAME);
-        DisplayUtils.initBackWithTitle(mContext,name);
+        /*String name = getIntent().getStringExtra(D.Boutique.KEY_NAME);
+        DisplayUtils.initBackWithTitle(mContext,name);*/
     }
 
     private void initData() {
@@ -123,7 +123,7 @@ public class CategoryChildActivity extends Activity {
     }
 
     public void findNewGoodBean(OkHttpUtils2.OnCompleteListener<NewGoodsBean[]> listener){
-        cat_id = getIntent().getIntExtra(D.Boutique.KEY_GOODS_ID,0);
+        cat_id = getIntent().getIntExtra(I.NewAndBoutiqueGood.CAT_ID,0);
         Log.e(TAG,"catId========"+cat_id);
         if (cat_id<0) finish();
         OkHttpUtils2<NewGoodsBean[]> utils2 = new OkHttpUtils2<NewGoodsBean[]>();
