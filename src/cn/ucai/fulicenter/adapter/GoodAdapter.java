@@ -38,11 +38,20 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     String tvFooter;
 
+    int sortBy;
+
     public GoodAdapter(Context mContext, ArrayList<NewGoodsBean> newGoodsList) {
         this.mContext = mContext;
         this.newGoodsList = new ArrayList<NewGoodsBean>();
         newGoodsList.addAll(newGoodsList);
-        sortByAddTime();
+        sortBy = I.SORT_BY_PRICE_DESC;
+        sortBy();
+    }
+
+    public void setSortBy(int sortBy) {
+        this.sortBy = sortBy;
+        sortBy();
+        notifyDataSetChanged();
     }
 
     public boolean isMore() {
@@ -119,13 +128,13 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
         newGoodsList.addAll(goods);
 
-        sortByAddTime();
+        sortBy();
         notifyDataSetChanged();
     }
 
     public void addData(ArrayList<NewGoodsBean> goods) {
         newGoodsList.addAll(goods);
-        sortByAddTime();
+        sortBy();
         notifyDataSetChanged();
     }
 
@@ -144,12 +153,35 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
-    public void sortByAddTime(){
+    public void sortBy(){
         Collections.sort(newGoodsList, new Comparator<NewGoodsBean>() {
+            int result =0 ;
             @Override
             public int compare(NewGoodsBean lhs, NewGoodsBean rhs) {
-                return (int)(Long.valueOf(rhs.getAddTime())-Long.valueOf(lhs.getAddTime()));
+                switch (sortBy){
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result = (int)(Long.valueOf(rhs.getAddTime())-Long.valueOf(lhs.getAddTime()));
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result = (int)(Long.valueOf(lhs.getAddTime())-Long.valueOf(rhs.getAddTime()));
+                        break;
+
+                    case I.SORT_BY_PRICE_ASC:
+                        result = convertPrice(rhs.getCurrencyPrice())-convertPrice(lhs.getCurrencyPrice());
+                        break;
+
+                    case I.SORT_BY_PRICE_DESC:
+                        result = convertPrice(lhs.getCurrencyPrice())-convertPrice(rhs.getCurrencyPrice());
+                        break;
+                }
+                return result;
             }
         });
+    }
+
+    //￥88￥88$￥¥ $￥¥  ￥140
+    public int convertPrice(String price){
+        price = price.substring(price.indexOf("￥")+1);
+        return Integer.valueOf(price);
     }
 }
