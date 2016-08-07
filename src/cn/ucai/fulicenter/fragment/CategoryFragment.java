@@ -87,7 +87,8 @@ public class CategoryFragment extends Fragment {
                                         Log.e(TAG,"childLlist.size====="+childLlist.size());
 
                                         childList.add(childLlist);
-                                        mAdapter.notifyDataSetChanged();
+                                        //mAdapter.notifyDataSetChanged();
+                                        mAdapter.addData(groupList,childList);
 
                                     }
                                 }

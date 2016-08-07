@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqueFragment;
+import cn.ucai.fulicenter.fragment.CategoryFragment;
 import cn.ucai.fulicenter.fragment.NewGoodFragment;
 
 public class FuLiCenterMainActivity extends BaseActivity {
@@ -33,6 +34,8 @@ public class FuLiCenterMainActivity extends BaseActivity {
     NewGoodFragment newGoodFragment;
 
     BoutiqueFragment boutiqueFragment;
+
+    CategoryFragment categoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +67,15 @@ public class FuLiCenterMainActivity extends BaseActivity {
         fragments = new Fragment[5];
         newGoodFragment = new NewGoodFragment();
         boutiqueFragment = new BoutiqueFragment();
+        categoryFragment = new CategoryFragment();
         fragments[0] = newGoodFragment;
         fragments[1] = boutiqueFragment;
+        fragments[2] =categoryFragment;
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container,newGoodFragment)
                 .add(R.id.fragment_container,boutiqueFragment).hide(boutiqueFragment)
+                .add(R.id.fragment_container,categoryFragment).hide(categoryFragment)
                 .show(newGoodFragment)
                 .commit();
     }

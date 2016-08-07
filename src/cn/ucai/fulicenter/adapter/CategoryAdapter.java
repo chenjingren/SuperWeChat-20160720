@@ -77,9 +77,9 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        GroupViewHolder holder =null;
+        GroupViewHolder holder;
         if (convertView==null){
-            convertView = View.inflate(mContext, R.layout.item_category_group,parent);
+            convertView = View.inflate(mContext, R.layout.item_category_group,null);
             holder = new GroupViewHolder();
 
             holder.ivGroupThumb = (ImageView) convertView.findViewById(R.id.iv_group_thumb);
@@ -105,9 +105,9 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ChildViewHolder holder = null;
+        ChildViewHolder holder;
         if (convertView==null){
-            convertView = View.inflate(mContext,R.layout.item_category_child,parent);
+            convertView = View.inflate(mContext,R.layout.item_category_child,null);
             holder = new ChildViewHolder();
 
             holder.tvChildName = (TextView) convertView.findViewById(R.id.tv_child_name);
@@ -134,6 +134,13 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
+
+    public void addData(List<CategoryGroupBean> groupList, List<ArrayList<CategoryChildBean>> childList) {
+        mGroupList.addAll(groupList);
+        mChlidList.addAll(childList);
+        notifyDataSetChanged();
+    }
+
 
     class GroupViewHolder{
         ImageView ivGroupThumb;
