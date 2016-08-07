@@ -115,7 +115,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             holder.layoutCategoryChild = (RelativeLayout) convertView.findViewById(R.id.layout_category_child);
 
             convertView.setTag(holder);
-            
+
         }else {
             holder = (ChildViewHolder) convertView.getTag();
         }
