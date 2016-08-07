@@ -82,6 +82,8 @@ public class CategoryChildActivity extends Activity {
 
         /*String name = getIntent().getStringExtra(D.Boutique.KEY_NAME);
         DisplayUtils.initBackWithTitle(mContext,name);*/
+
+        DisplayUtils.initBack(mContext);
     }
 
     private void initData() {
