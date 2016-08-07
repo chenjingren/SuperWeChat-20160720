@@ -48,7 +48,7 @@ public class CategoryChildActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_boutique_child);
+        setContentView(R.layout.activity_category_child);
 
         mContext = this;
 

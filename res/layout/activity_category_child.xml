@@ -6,7 +6,7 @@
     android:background="@color/list_background"
     >
 
-    <include layout="@layout/common_head_title" />
+    <include layout="@layout/common_head_title_only_back" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/salv_category_child"
