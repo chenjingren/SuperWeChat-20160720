@@ -29,7 +29,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
     ArrayList<BoutiqueBean> boutiqueList;
 
     BoutiqueViewHolder boutiqueViewHolder;
-    FooterViewHolder footerViewHolder;
+    //FooterViewHolder footerViewHolder;
 
     boolean isMore;
 
@@ -71,11 +71,11 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof FooterViewHolder){
+        /*if (holder instanceof FooterViewHolder){
             footerViewHolder = (FooterViewHolder) holder;
             footerViewHolder.tvFooter.setText(footerText);
-    }
-
+        }
+*/
         if (holder instanceof BoutiqueViewHolder){
             boutiqueViewHolder = (BoutiqueViewHolder) holder;
             final BoutiqueBean boutique = boutiqueList.get(position);
@@ -98,16 +98,17 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return boutiqueList!=null?boutiqueList.size()+1:1;
+        return boutiqueList!=null?boutiqueList.size():0;
+        //return boutiqueList!=null?boutiqueList.size()+1:1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position==getItemCount()-1){
+       /* if (position==getItemCount()-1){
             return I.TYPE_FOOTER;
-        }else {
+        }else {*/
             return I.TYPE_ITEM;
-        }
+        //}
     }
 
     public void initData(ArrayList<BoutiqueBean> boutiques) {

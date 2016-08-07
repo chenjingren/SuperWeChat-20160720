@@ -140,7 +140,7 @@ public class BoutiqueFragment extends Fragment {
 
     private void setListener() {
         setPullDownListener();
-        setPullUpListener();
+        //setPullUpListener();
     }
 
     private void setPullDownListener() {
