@@ -37,6 +37,8 @@ public class CategoryFragment extends Fragment {
 
     CategoryAdapter mAdapter;
 
+    int groupCount;
+
     public CategoryFragment() {
         // Required empty public constructor
     }
@@ -77,27 +79,14 @@ public class CategoryFragment extends Fragment {
                         groupList = groupLlist;
                         Log.e(TAG,"groupLlist.size==="+groupLlist.size());
 
+                        int i =0;
+
                         for (CategoryGroupBean g:groupLlist){
-                            findCategoryChildList(new OkHttpUtils2.OnCompleteListener<CategoryChildBean[]>() {
-                                @Override
-                                public void onSuccess(CategoryChildBean[] result) {
-                                    Log.e(TAG,"child,,,,result===="+result);
-                                    if (result!=null){
-                                        ArrayList<CategoryChildBean> childLlist = Utils.array2List(result);
-                                        Log.e(TAG,"childLlist.size====="+childLlist.size());
 
-                                        childList.add(childLlist);
-                                        //mAdapter.notifyDataSetChanged();
-                                        mAdapter.addData(groupList,childList);
-
-                                    }
-                                }
-
-                                @Override
-                                public void onError(String error) {
-                                    Log.e(TAG,"child,,,error==="+error);
-                                }
-                            },g.getId());
+                           // i++;
+                            childList.add(new ArrayList<CategoryChildBean>());
+                            findCategoryChildList(g.getId(),i);
+                            i++;
                         }
                     }
 
@@ -118,13 +107,41 @@ public class CategoryFragment extends Fragment {
                 .execute(listener);
     }
 
-    public void findCategoryChildList(OkHttpUtils2.OnCompleteListener<CategoryChildBean[]> listener,int parentId){
+    public void findCategoryChildList(int parentId,final int index){
         OkHttpUtils2<CategoryChildBean[]> utils2 = new OkHttpUtils2<>();
         utils2.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
                 .addParam(I.CategoryChild.PARENT_ID,String.valueOf(parentId))
                 .addParam(I.PAGE_ID,String.valueOf(I.PAGE_ID_DEFAULT))
                 .addParam(I.PAGE_SIZE,String.valueOf(I.PAGE_SIZE_DEFAULT))
                 .targetClass(CategoryChildBean[].class)
-                .execute(listener);
+                .execute(new OkHttpUtils2.OnCompleteListener<CategoryChildBean[]>() {
+                    @Override
+                    public void onSuccess(CategoryChildBean[] result) {
+                        groupCount++;
+
+                        Log.e(TAG,"child,,,,result===="+result);
+                        if (result!=null){
+
+                            ArrayList<CategoryChildBean> childLlist = Utils.array2List(result);
+
+                            //childList.add(childLlist);
+                            //mAdapter.notifyDataSetChanged();
+                            //mAdapter.addData(groupList,childList);
+                            if (childLlist!=null){
+                                Log.e(TAG,"childLlist.size====="+childLlist.size());
+                                childList.set(index,childLlist);
+                            }
+                        }
+
+                        if (groupCount==groupList.size()){
+                            mAdapter.addData(groupList,childList);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e(TAG,"child,,,error==="+error);
+                    }
+                });
     }
 }
