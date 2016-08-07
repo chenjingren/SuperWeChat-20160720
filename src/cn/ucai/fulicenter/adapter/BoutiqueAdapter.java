@@ -106,6 +106,11 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void addData(ArrayList<BoutiqueBean> boutiques) {
+        boutiqueList.addAll(boutiques);
+        notifyDataSetChanged();
+    }
+
 
     class BoutiqueViewHolder extends RecyclerView.ViewHolder{
 

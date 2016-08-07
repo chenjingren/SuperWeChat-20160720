@@ -42,6 +42,10 @@ public class BoutiqueFragment extends Fragment {
 
     LinearLayoutManager mLayoutManager;
 
+    int action = I.ACTION_DOWNLOAD;
+
+    int pageId=0;
+
 
     public BoutiqueFragment() {
         // Required empty public constructor
@@ -55,6 +59,7 @@ public class BoutiqueFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_boutique, container, false);
         initView(layout);
         initData();
+        setListener();
         return layout;
     }
 
@@ -90,13 +95,38 @@ public class BoutiqueFragment extends Fragment {
                 if (boutiqueArray!=null&&boutiqueArray.length>0){
                     ArrayList<BoutiqueBean> boutiqueBeans = Utils.array2List(boutiqueArray);
                     boutiques = boutiqueBeans;
-                    mAdapter.initData(boutiques);
+
+                    mtvRefreshHint.setVisibility(View.GONE);
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                    mAdapter.setMore(true);
+                    mAdapter.setFooterText(getResources().getString(R.string.load_more));
+
+                    if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN){
+                        pageId = 0;
+                        mAdapter.initData(boutiques);
+                    }else {
+                        pageId += I.PAGE_SIZE_DEFAULT;
+                        mAdapter.addData(boutiques);
+                    }
+
+                    if (boutiqueBeans.size()<I.PAGE_SIZE_DEFAULT){
+                        mAdapter.setMore(false);
+                        mAdapter.setFooterText(getResources().getString(R.string.no_more));
+                    }
+                }else {
+
+                    mAdapter.setMore(false);
+                    mAdapter.setFooterText(getResources().getString(R.string.no_more));
+
                 }
             }
 
             @Override
             public void onError(String error) {
-
+                Log.e(TAG,"error====="+error);
+                mSwipeRefreshLayout.setRefreshing(false);
+                mtvRefreshHint.setVisibility(View.GONE);
             }
         });
     }
@@ -106,6 +136,60 @@ public class BoutiqueFragment extends Fragment {
         utils2.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
                 .targetClass(BoutiqueBean[].class)
                 .execute(listener);
+    }
+
+    private void setListener() {
+        setPullDownListener();
+        setPullUpListener();
+    }
+
+    private void setPullDownListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                action = I.ACTION_PULL_DOWN;
+                mSwipeRefreshLayout.setRefreshing(true);
+                mtvRefreshHint.setVisibility(View.VISIBLE);
+                initData();
+            }
+        });
+    }
+
+    private void setPullUpListener() {
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastItemPosition;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int a = RecyclerView.SCROLL_STATE_DRAGGING; //1
+                int b = RecyclerView.SCROLL_STATE_IDLE; //0
+                int c = RecyclerView.SCROLL_STATE_SETTLING; //2
+                Log.e(TAG,"STATE===="+newState);
+
+                if (newState==RecyclerView.SCROLL_STATE_IDLE
+                        && lastItemPosition==mAdapter.getItemCount()-1){
+                    if (mAdapter.isMore()){
+                        action=I.ACTION_PULL_UP;
+                        //pageId +=I.PAGE_SIZE_DEFAULT;
+                        initData();
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int f = mLayoutManager.findFirstVisibleItemPosition();
+                int l = mLayoutManager.findLastVisibleItemPosition();
+                Log.e(TAG,"f==="+f+",l===="+l);
+                lastItemPosition = mLayoutManager.findLastVisibleItemPosition();
+                mSwipeRefreshLayout.setEnabled(mLayoutManager.findFirstVisibleItemPosition()==0);
+                if (f==-1||l==-1){
+                    lastItemPosition = mAdapter.getItemCount()-1;
+                }
+            }
+        });
     }
 
 }
