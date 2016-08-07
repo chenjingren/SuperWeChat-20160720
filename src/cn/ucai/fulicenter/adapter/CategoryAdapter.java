@@ -136,7 +136,9 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     }
 
     public void addData(List<CategoryGroupBean> groupList, List<ArrayList<CategoryChildBean>> childList) {
+        this.mGroupList.clear();
         mGroupList.addAll(groupList);
+        this.mChlidList.clear();
         mChlidList.addAll(childList);
         notifyDataSetChanged();
     }
