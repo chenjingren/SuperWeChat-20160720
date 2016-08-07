@@ -27,7 +27,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="20sp"
         android:textColor="#000"
-        
+
         />
 
 </RelativeLayout>

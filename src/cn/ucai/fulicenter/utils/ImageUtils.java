@@ -53,6 +53,15 @@ public class ImageUtils {
 		String url = I.DOWNLOAD_BOUTIQUE_IMG_URL+thumb;
         Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(imageView);
 	}
-	
+
+	public static void setCategoryGroupThumb(Context context, ImageView imageView,String thumb){
+		String url = I.DOWNLOAD_DOWNLOAD_CATEGORY_GROUP_IMAGE_URL+thumb;
+		Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(imageView);
+	}
+
+	public static void setCategoryChildThumb(Context context, ImageView imageView,String thumb){
+		String url = I.DOWNLOAD_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL+thumb;
+		Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(imageView);
+	}
 	
 }
